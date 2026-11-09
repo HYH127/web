@@ -34,7 +34,7 @@ export const hero = {
   titleTop: "从义乌出发",
   titleBottom: "连接世界",
   subtitle:
-    "一柜货，从图纸到到港，中间隔着 87 家工厂、4 大品类、30 个国家。我们把这条看不见的路，走成每一步都有记录的路。",
+    "一柜货，从图纸到到港，中间隔着 87 家工厂、4 大品类、40 多个国家。我们把这条看不见的路，走成每一步都有记录的路。",
   primaryCta: { href: "/cases", label: "查看合作案例" },
   secondaryCta: { href: "/shop", label: "了解产品能力" },
   mapNote: "全球交易网络 · 2025 年出运数据",
@@ -132,7 +132,7 @@ export const pages = {
     eyebrow: "ABOUT NORDEL",
     title: "关于 NORDEL",
     description:
-      "2016 年在义乌国际商贸城起步，现在为 30 个国家的采购方整合 4 大品类的工厂产能。",
+      "2016 年在义乌国际商贸城起步，现在为 40 多个国家的采购方整合 4 大品类的工厂产能。",
   },
   contact: {
     eyebrow: "CONTACT",

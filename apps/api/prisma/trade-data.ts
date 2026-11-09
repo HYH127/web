@@ -41,6 +41,24 @@ export const tradeStats = [
   { countryCode: "GH", countryName: "加纳", continent: "AFRICA" as const, transactionCount: 44, brightnessLevel: 2, lat: 7.9, lng: -1.0, isHighlight: false },
   { countryCode: "TZ", countryName: "坦桑尼亚", continent: "AFRICA" as const, transactionCount: 36, brightnessLevel: 2, lat: -6.4, lng: 34.9, isHighlight: false },
   { countryCode: "ET", countryName: "埃塞俄比亚", continent: "AFRICA" as const, transactionCount: 32, brightnessLevel: 2, lat: 9.1, lng: 40.5, isHighlight: false },
+  // 欧亚大陆纵深：俄罗斯（跨欧亚，点亮整块底色）、土耳其（欧洲门户）、
+  // 哈萨克斯坦 / 乌兹别克斯坦（中欧班列西向干线）、巴基斯坦
+  { countryCode: "RU", countryName: "俄罗斯", continent: "EUROPE" as const, transactionCount: 268, brightnessLevel: 4, lat: 57.0, lng: 60.0, isHighlight: false },
+  { countryCode: "TR", countryName: "土耳其", continent: "ASIA" as const, transactionCount: 186, brightnessLevel: 3, lat: 39.0, lng: 35.2, isHighlight: false },
+  { countryCode: "KZ", countryName: "哈萨克斯坦", continent: "ASIA" as const, transactionCount: 96, brightnessLevel: 2, lat: 48.0, lng: 66.9, isHighlight: false },
+  { countryCode: "UZ", countryName: "乌兹别克斯坦", continent: "ASIA" as const, transactionCount: 42, brightnessLevel: 1, lat: 41.4, lng: 64.6, isHighlight: false },
+  { countryCode: "PK", countryName: "巴基斯坦", continent: "ASIA" as const, transactionCount: 78, brightnessLevel: 2, lat: 30.4, lng: 69.3, isHighlight: false },
+  // 欧洲中部：捷克 / 罗马尼亚（东欧转口）
+  { countryCode: "CZ", countryName: "捷克", continent: "EUROPE" as const, transactionCount: 82, brightnessLevel: 2, lat: 49.8, lng: 15.5, isHighlight: false },
+  { countryCode: "RO", countryName: "罗马尼亚", continent: "EUROPE" as const, transactionCount: 58, brightnessLevel: 1, lat: 45.9, lng: 24.9, isHighlight: false },
+  // 东南亚：马来西亚 / 菲律宾（与越南、泰国、印尼连成一片）
+  { countryCode: "MY", countryName: "马来西亚", continent: "ASIA" as const, transactionCount: 112, brightnessLevel: 2, lat: 4.2, lng: 101.9, isHighlight: false },
+  { countryCode: "PH", countryName: "菲律宾", continent: "ASIA" as const, transactionCount: 88, brightnessLevel: 2, lat: 12.9, lng: 121.8, isHighlight: false },
+  // 中东：以色列
+  { countryCode: "IL", countryName: "以色列", continent: "ASIA" as const, transactionCount: 74, brightnessLevel: 2, lat: 31.0, lng: 34.9, isHighlight: false },
+  // 非洲补充：阿尔及利亚（北非）、安哥拉（南部非洲西岸）
+  { countryCode: "DZ", countryName: "阿尔及利亚", continent: "AFRICA" as const, transactionCount: 48, brightnessLevel: 2, lat: 28.0, lng: 1.7, isHighlight: false },
+  { countryCode: "AO", countryName: "安哥拉", continent: "AFRICA" as const, transactionCount: 34, brightnessLevel: 1, lat: -11.2, lng: 17.9, isHighlight: false },
 ];
 
 /**

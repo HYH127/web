@@ -35,7 +35,7 @@ export default async function HomePage() {
     apiGetSafe<TradeMapData>("/trade/map", emptyTradeMap, { revalidate: 60 }),
     getFactoryPosts({ pageSize: 3 }),
   ]);
-  const countryCount = map.totals.countries || 26;
+  const countryCount = map.totals.countries || 40;
   const latestPosts = factoryFeed.items;
   const maxStageDays = Math.max(...process.map((item) => item.days), 1);
 

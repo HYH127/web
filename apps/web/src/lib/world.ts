@@ -55,6 +55,18 @@ export const ISO_ALPHA2_TO_NUM: Record<string, string> = {
   GH: "288",
   TZ: "834",
   ET: "231",
+  RU: "643",
+  TR: "792",
+  KZ: "398",
+  UZ: "860",
+  PK: "586",
+  CZ: "203",
+  RO: "642",
+  MY: "458",
+  PH: "608",
+  IL: "376",
+  DZ: "012",
+  AO: "024",
 };
 
 export function pathOfCountry(alpha2: string): string | undefined {

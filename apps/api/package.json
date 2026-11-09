@@ -13,7 +13,8 @@
     "prisma:seed": "prisma db seed",
     "trade:sync": "tsx prisma/sync-trade.ts",
     "prisma:studio": "prisma studio",
-    "prisma:reset": "prisma migrate reset --force"
+    "prisma:reset": "prisma migrate reset --force",
+    "admin:create": "tsx prisma/create-admin.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
