@@ -166,6 +166,7 @@ export const contact = {
   phone: "+86 579 8500 2168",
   phoneHref: "tel:+8657985002168",
   whatsapp: "+86 138 5790 2168",
+  whatsappHref: "https://wa.me/8613857902168",
   email: "trade@nordel.cn",
   emailHref: "mailto:trade@nordel.cn",
   hours: "周一至周六 08:30–18:00（GMT+8）",
