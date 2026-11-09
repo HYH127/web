@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Container, Section, SectionHeading } from "@/components/ui/container";
+import { SwipeRow } from "@/components/ui/swipe-row";
 import { ButtonLink } from "@/components/ui/button";
 import { MixBars, MixDonut } from "@/components/ui/mix-charts";
 import { SocialRail } from "@/components/layout/social";
@@ -259,7 +260,10 @@ export default async function HomePage() {
               </ButtonLink>
             }
           />
-          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <SwipeRow
+            className="-mx-6 mt-12 flex snap-x snap-mandatory scroll-pl-6 gap-6 overflow-x-auto overscroll-x-contain px-6 pb-2 [scrollbar-width:none] sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4 [&::-webkit-scrollbar]:hidden"
+            hint="右滑看下一个品类"
+          >
             {productCategories.map((cat) => {
               const product = products.find((item) => item.category === cat.value);
               if (!product) return null;
@@ -267,7 +271,8 @@ export default async function HomePage() {
                 <Link
                   key={cat.value}
                   href={`/product/${product.slug}`}
-                  className="glass-panel group flex h-full flex-col overflow-hidden rounded-lg transition-colors duration-300 hover:border-lumen-500/40"
+                  data-swipe-item
+                  className="glass-panel group flex h-full w-[88%] shrink-0 snap-start flex-col overflow-hidden rounded-lg transition-[transform,opacity,border-color] duration-300 ease-out hover:border-lumen-500/40 sm:w-auto data-[active=false]:scale-[0.965] data-[active=false]:opacity-75"
                 >
                   <div className="relative aspect-4/5 overflow-hidden border-b border-line bg-surface">
                     <img
@@ -310,7 +315,7 @@ export default async function HomePage() {
                 </Link>
               );
             })}
-          </div>
+          </SwipeRow>
         </Container>
       </Section>
 
@@ -335,9 +340,17 @@ export default async function HomePage() {
             </p>
           </div>
 
-          <ol className="mt-8 grid gap-8 md:grid-cols-4">
+          <SwipeRow
+            as="ol"
+            className="-mx-6 mt-8 flex snap-x snap-mandatory scroll-pl-6 gap-6 overflow-x-auto overscroll-x-contain px-6 pb-2 [scrollbar-width:none] sm:mx-0 sm:grid sm:gap-8 sm:overflow-visible sm:px-0 sm:pb-0 md:grid-cols-4 [&::-webkit-scrollbar]:hidden"
+            hint="右滑看下一步"
+          >
             {process.map((item) => (
-              <li key={item.step} className="pt-5">
+              <li
+                key={item.step}
+                data-swipe-item
+                className="w-[86%] shrink-0 snap-start pt-5 transition-[transform,opacity] duration-300 ease-out data-[active=false]:scale-[0.97] data-[active=false]:opacity-75 sm:w-auto"
+              >
                 <div aria-hidden className="relative h-[3px] w-full bg-surface-strong">
                   <span
                     className="absolute inset-y-0 left-0 bg-champagne-500"
@@ -355,7 +368,7 @@ export default async function HomePage() {
                 </p>
               </li>
             ))}
-          </ol>
+          </SwipeRow>
         </Container>
       </Section>
 
