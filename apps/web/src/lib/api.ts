@@ -4,8 +4,15 @@
  * 统一错误结构：{ success: false, error: { code, message, ... } }
  */
 
+/** 浏览器可见的 API 根地址（也用于拼图片绝对路径，见 assetUrl） */
 export const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:4000/api";
+
+/**
+ * 服务端内部调用地址：线上指向 127.0.0.1:4000，避免绕公网域名一圈。
+ * 客户端 bundle 里该变量为 undefined，会自动退回 API_BASE_URL。
+ */
+const SERVER_API_BASE = process.env.API_INTERNAL_URL ?? API_BASE_URL;
 
 export interface ApiMeta {
   page?: number;
@@ -44,7 +51,7 @@ async function request<T>(
   init?: RequestInit & { revalidate?: number },
 ): Promise<Extract<ApiEnvelope<T>, { success: true }>> {
   const { revalidate, ...rest } = init ?? {};
-  const response = await fetch(`${API_BASE_URL}${path}`, {
+  const response = await fetch(`${SERVER_API_BASE}${path}`, {
     ...rest,
     headers: {
       "Content-Type": "application/json",

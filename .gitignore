@@ -13,6 +13,7 @@ build/
 .env
 .env.*
 !.env.example
+!.env.production.example
 
 # 本地工程数据 / 素材 / 部署产物（保留在本机，不推送）
 .workbuddy/

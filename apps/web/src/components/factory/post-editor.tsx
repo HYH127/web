@@ -13,7 +13,6 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Field, TextareaField } from "@/components/ui/field";
-import { API_BASE_URL } from "@/lib/api";
 import {
   FACTORY_CATEGORIES,
   assetUrl,
@@ -106,7 +105,7 @@ export function PostEditor({ initial }: { initial?: EditablePost }) {
   async function uploadImage(file: File): Promise<string> {
     const form = new FormData();
     form.append("file", file);
-    const response = await fetch(`${API_BASE_URL}/factory/upload`, {
+    const response = await fetch("/backend/factory/upload", {
       method: "POST",
       headers: { "x-admin-key": adminKey },
       body: form,
@@ -235,8 +234,8 @@ export function PostEditor({ initial }: { initial?: EditablePost }) {
 
       const response = await fetch(
         initial
-          ? `${API_BASE_URL}/factory/posts/${initial.id}`
-          : `${API_BASE_URL}/factory/posts`,
+          ? `/backend/factory/posts/${initial.id}`
+          : "/backend/factory/posts",
         {
           method: initial ? "PATCH" : "POST",
           headers: {
@@ -274,7 +273,7 @@ export function PostEditor({ initial }: { initial?: EditablePost }) {
     setError(null);
     setBusy("delete");
     try {
-      const response = await fetch(`${API_BASE_URL}/factory/posts/${initial.id}`, {
+      const response = await fetch(`/backend/factory/posts/${initial.id}`, {
         method: "DELETE",
         headers: { "x-admin-key": adminKey },
       });

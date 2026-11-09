@@ -40,13 +40,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function FactoryDetailPage({ params }: PageProps) {
   const { slug } = await params;
 
-  let post;
-  try {
-    post = await getFactoryPost(slug);
-  } catch (error) {
-    if (error instanceof ApiError && error.status === 404) notFound();
-    throw error;
-  }
+  // 接口不可用（例如后端尚未部署）或该案例不存在时，一律按 404 处理，
+  // 避免线上直接抛 500 白屏。
+  const post = await getFactoryPost(slug).catch(() => null);
+  if (!post) notFound();
 
   const category = FACTORY_CATEGORY_LABEL[post.category] ?? post.category;
   const cover = assetUrl(post.coverImage);
