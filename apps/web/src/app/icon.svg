@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="NORDEL">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1a2c44" />
+      <stop offset="0.55" stop-color="#0a1526" />
+      <stop offset="1" stop-color="#081120" />
+    </linearGradient>
+    <linearGradient id="beam" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#9aecf4" />
+      <stop offset="1" stop-color="#2fb6c4" />
+    </linearGradient>
+  </defs>
+
+  <!-- 底板：圆角方块，与页脚社交图标同一视觉语言 -->
+  <rect x="0" y="0" width="64" height="64" rx="15" fill="url(#bg)" />
+  <!-- 极细内描边：让图标在白色标签栏上仍有边界感 -->
+  <rect x="0.5" y="0.5" width="63" height="63" rx="14.5" fill="none" stroke="#ffffff" stroke-opacity="0.10" />
+
+  <!-- 字母 N：两根立柱 + 一条冷光青斜笔 -->
+  <rect x="15" y="14.5" width="7.5" height="35" fill="#ffffff" />
+  <rect x="41.5" y="14.5" width="7.5" height="35" fill="#ffffff" />
+  <path d="M15 14.5 H22.5 L49 49.5 H41.5 Z" fill="url(#beam)" />
+</svg>
