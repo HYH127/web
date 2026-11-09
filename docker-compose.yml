@@ -1,0 +1,23 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: wem-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: wem
+      POSTGRES_PASSWORD: wem_dev_pwd
+      POSTGRES_DB: wem_trade
+      # 中文/多语言数据排序
+      LANG: C.UTF-8
+    ports:
+      - "5432:5432"
+    volumes:
+      - wem_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U wem -d wem_trade"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  wem_pgdata:

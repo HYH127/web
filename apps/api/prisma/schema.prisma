@@ -1,0 +1,327 @@
+// 外贸独立站 MVP 数据模型（Step 0 草案 / Step 1 落地）
+// 约定：所有内容为占位 Seed 数据，不接真实业务数据
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Continent {
+  ASIA
+  EUROPE
+  NORTH_AMERICA
+  SOUTH_AMERICA
+  AFRICA
+  OCEANIA
+}
+
+enum ProductStatus {
+  DRAFT
+  ACTIVE
+  ARCHIVED
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  FULFILLED
+  CANCELLED
+}
+
+// 工厂实例的分类（对应现场记录的六个视角）
+enum FactoryCategory {
+  ASSEMBLY // 装配
+  MACHINING // 机加工
+  QUALITY // 质检
+  WAREHOUSE // 仓储
+  SAMPLE // 打样
+  PACKAGING // 包装
+}
+
+// ---------- 账户 ----------
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String?
+  company      String?
+  country      String?
+  role         Role     @default(USER)
+
+  // 邮箱验证：未验证的账号不能登录，只能重发验证码
+  emailVerifiedAt DateTime?
+  // 登录风控：连续失败计数 + 锁定截止时间（15 分钟）
+  failedLoginCount Int      @default(0)
+  lockedUntil      DateTime?
+  lastLoginAt      DateTime?
+  // 会话版本号：改密 / 强制下线时 +1，旧 JWT 立即失效
+  tokenVersion     Int      @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  cart              Cart?
+  orders            Order[]
+  verificationCodes EmailVerificationCode[]
+
+  @@index([createdAt])
+}
+
+// 邮箱验证码 / 找回密码验证码（只存哈希，不存明文）
+model EmailVerificationCode {
+  id         String    @id @default(cuid())
+  userId     String
+  purpose    VerificationPurpose @default(VERIFY_EMAIL)
+  codeHash   String
+  expiresAt  DateTime
+  consumedAt DateTime?
+  attempts   Int       @default(0)
+  requestIp  String?
+  createdAt  DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, purpose, createdAt])
+  @@index([expiresAt])
+}
+
+enum VerificationPurpose {
+  VERIFY_EMAIL
+  RESET_PASSWORD
+}
+
+// 询盘（联系页 / 结算页提交）
+enum InquiryStatus {
+  NEW
+  CONTACTED
+  QUOTED
+  CLOSED
+  SPAM
+}
+
+model Inquiry {
+  id        String        @id @default(cuid())
+  reference String        @unique
+  name      String
+  company   String?
+  email     String
+  phone     String?
+  category  String?
+  volume    String?
+  market    String?
+  message   String
+  source    String        @default("contact") // contact | checkout
+  status    InquiryStatus @default(NEW)
+
+  // 风控留痕（用于识别刷单 / 垃圾提交）
+  ip        String?
+  userAgent String?
+  riskScore Int           @default(0)
+  meta      Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status, createdAt])
+  @@index([email])
+  @@index([createdAt])
+}
+
+// 安全事件流水：注册拦截、登录失败、锁定、验证码异常等
+model SecurityEvent {
+  id        String   @id @default(cuid())
+  kind      String
+  email     String?
+  ip        String?
+  userAgent String?
+  detail    Json?
+  createdAt DateTime @default(now())
+
+  @@index([kind, createdAt])
+  @@index([email, createdAt])
+}
+
+// ---------- 商城 ----------
+model Category {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  name      String
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+
+  products Product[]
+}
+
+model Product {
+  id          String        @id @default(cuid())
+  slug        String        @unique
+  name        String
+  summary     String
+  description String?
+  price       Decimal       @db.Decimal(12, 2)
+  currency    String        @default("USD")
+  moq         Int           @default(1) // 最小起订量（B2B 占位）
+  images      String[]
+  specs       Json?
+  categoryId  String
+  status      ProductStatus @default(ACTIVE)
+  sortOrder   Int           @default(0)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  category   Category    @relation(fields: [categoryId], references: [id])
+  cartItems  CartItem[]
+  orderItems OrderItem[]
+
+  @@index([categoryId])
+  @@index([status])
+}
+
+model Cart {
+  id        String   @id @default(cuid())
+  userId    String?  @unique
+  sessionId String?  @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user  User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items CartItem[]
+}
+
+model CartItem {
+  id        String   @id @default(cuid())
+  cartId    String
+  productId String
+  quantity  Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  cart    Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id])
+
+  @@unique([cartId, productId])
+}
+
+model Order {
+  id         String      @id @default(cuid())
+  orderNo    String      @unique
+  userId     String
+  status     OrderStatus @default(PENDING)
+  subtotal   Decimal     @db.Decimal(12, 2)
+  shipping   Decimal     @default(0) @db.Decimal(12, 2)
+  total      Decimal     @db.Decimal(12, 2)
+  currency   String      @default("USD")
+  address    Json?
+  note       String?
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+
+  user  User        @relation(fields: [userId], references: [id])
+  items OrderItem[]
+
+  @@index([userId])
+}
+
+model OrderItem {
+  id           String  @id @default(cuid())
+  orderId      String
+  productId    String
+  nameSnapshot String
+  unitPrice    Decimal @db.Decimal(12, 2)
+  quantity     Int
+  subtotal     Decimal @db.Decimal(12, 2)
+
+  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id])
+}
+
+// ---------- B2B 案例 ----------
+model CaseStudy {
+  id         String    @id @default(cuid())
+  slug       String    @unique
+  title      String
+  continent  Continent
+  country    String
+  industry   String
+  summary    String
+  content    Json? // 结构化区块（客户背景 / 合作记录 / 成果）
+  coverImage String?
+  clientName String?
+  metrics    Json? // [{ label, value, unit }]
+  published  Boolean   @default(true)
+  sortOrder  Int       @default(0)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@index([continent])
+  @@index([published])
+}
+
+// ---------- 地图交易可视化 ----------
+model TradeStat {
+  id               String    @id @default(cuid())
+  countryCode      String    @unique
+  countryName      String
+  continent        Continent
+  transactionCount Int       @default(0)
+  brightnessLevel  Int       @default(0) // 0–4 分级，避免极值过曝
+  lat              Float
+  lng              Float
+  isHighlight      Boolean   @default(false) // 小人动画目的地
+  updatedAt        DateTime  @updatedAt
+}
+
+model ShipmentRoute {
+  id                String   @id @default(cuid())
+  originCode        String   @default("CN-ZJ")
+  originName        String   @default("浙江 · 宁波")
+  destinationCode   String
+  destinationName   String
+  status            String   @default("PLACEHOLDER") // 占位状态
+  durationMs        Int      @default(6000) // 去程动画时长
+  stayMs            Int      @default(1600) // 停留
+  intervalMs        Int      @default(4000) // 两条路线间隔
+  active            Boolean  @default(true)
+  createdAt         DateTime @default(now())
+}
+
+// ---------- 工厂实例（图文现场记录） ----------
+// 一条记录 = 一篇现场日志：标题、封面、配图与结构化正文块
+model FactoryPost {
+  id          String          @id @default(cuid())
+  slug        String          @unique
+  title       String
+  factoryName String
+  location    String
+  category    FactoryCategory @default(ASSEMBLY)
+  summary     String
+  coverImage  String?
+  gallery     String[] @default([])
+  content     Json? // 结构化块：[{ type: "paragraph" | "heading" | "image" | "quote" | "list", ... }]
+  tags        String[] @default([])
+  author      String?  @default("现场记录")
+  publishedAt DateTime @default(now())
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([published, publishedAt])
+  @@index([category])
+}
+
+// ---------- 站点配置 ----------
+model SiteConfig {
+  id        String   @id @default(cuid())
+  key       String   @unique // socialLinks / heroCopy / contactInfo
+  value     Json
+  updatedAt DateTime @updatedAt
+}

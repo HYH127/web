@@ -1,0 +1,46 @@
+# dependencies
+node_modules/
+.pnpm-store/
+
+# builds
+dist/
+.next/
+out/
+build/
+*.tsbuildinfo
+
+# env（任何环境的密钥都不能进仓库）
+.env
+.env.*
+!.env.example
+
+# 本地工程数据 / 素材 / 部署产物（保留在本机，不推送）
+.workbuddy/
+generated-images/
+.tmp/
+.vercel/
+docker-compose.override.yml
+
+# prisma
+apps/api/prisma/migrations/dev.db*
+
+# logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# os / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# misc
+coverage/
+.turbo/
+.tmp/
+
+# 本地上传（工厂记录配图）
+apps/api/uploads/*
+!apps/api/uploads/.gitkeep

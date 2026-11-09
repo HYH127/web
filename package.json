@@ -1,0 +1,25 @@
+{
+  "name": "wem-trade-mvp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "B2B 外贸独立站 MVP - Next.js + NestJS + Prisma monorepo",
+  "packageManager": "pnpm@10.34.9",
+  "engines": {
+    "node": ">=20.9.0"
+  },
+  "scripts": {
+    "dev": "pnpm --parallel --filter @wem/web --filter @wem/api dev",
+    "dev:web": "pnpm --filter @wem/web dev",
+    "dev:api": "pnpm --filter @wem/api dev",
+    "build": "pnpm --filter @wem/web build && pnpm --filter @wem/api build",
+    "typecheck": "pnpm -r typecheck",
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down",
+    "db:logs": "docker compose logs -f db",
+    "db:migrate": "pnpm --filter @wem/api prisma:migrate",
+    "db:push": "pnpm --filter @wem/api prisma:push",
+    "db:seed": "pnpm --filter @wem/api prisma:seed",
+    "db:studio": "pnpm --filter @wem/api prisma:studio",
+    "db:reset": "pnpm --filter @wem/api prisma:reset"
+  }
+}

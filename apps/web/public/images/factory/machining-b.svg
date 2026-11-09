@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800" role="img" aria-label="工厂实例占位插画">
+  <defs>
+    <pattern id="fgrid-machining-b" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" fill="none" stroke="#e3eaf2" stroke-width="1" opacity="0.55"/>
+    </pattern>
+    <radialGradient id="fsoft-machining-b" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#b8933f" stop-opacity="0.26"/>
+      <stop offset="55%" stop-color="#b8933f" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#b8933f" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="fglow-machining-b" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#2fb6c4" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#2fb6c4" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="800" fill="#f8fafc"/>
+  <rect width="1200" height="800" fill="url(#fgrid-machining-b)"/>
+  <rect x="64" y="64" width="1072" height="672" rx="26" fill="#ffffff" stroke="#e3eaf2"/>
+  <ellipse cx="540" cy="352" rx="430" ry="300" fill="url(#fsoft-machining-b)"/>
+  <ellipse cx="900" cy="600" rx="300" ry="200" fill="url(#fglow-machining-b)"/>
+  <text x="1088" y="712" text-anchor="end" font-family="Georgia, 'Times New Roman', serif" font-size="168" fill="#b8933f" opacity="0.13">02</text>
+  <g transform="translate(72,26) scale(1.13) rotate(-1 440 300)"><rect x="238" y="92" width="404" height="372" rx="14" fill="#ffffff" stroke="#ccd8e4" stroke-width="1.86"/><circle cx="440" cy="278" r="132" fill="none" stroke="#ccd8e4" stroke-width="2.17"/><circle cx="440" cy="278" r="96" fill="none" stroke="#b8933f" stroke-width="1.86" stroke-dasharray="5 7"/><circle cx="440" cy="278" r="58" fill="none" stroke="#ccd8e4" stroke-width="1.71"/><circle cx="440" cy="278" r="10" fill="#2fb6c4" stroke="none" stroke-width="1.86"/><line x1="498" y1="278" x2="572" y2="278" stroke="#e3eaf2" stroke-width="1.55"/><line x1="490.2294734194974" y1="307" x2="554.3153532995459" y2="344" stroke="#e3eaf2" stroke-width="1.55"/><line x1="469" y1="328.2294734194974" x2="506" y2="392.3153532995459" stroke="#e3eaf2" stroke-width="1.55"/><line x1="440" y1="336" x2="440" y2="410" stroke="#e3eaf2" stroke-width="1.55"/><line x1="411" y1="328.2294734194974" x2="374" y2="392.3153532995459" stroke="#e3eaf2" stroke-width="1.55"/><line x1="389.7705265805026" y1="307" x2="325.6846467004541" y2="344" stroke="#e3eaf2" stroke-width="1.55"/><line x1="382" y1="278" x2="308" y2="278" stroke="#e3eaf2" stroke-width="1.55"/><line x1="389.7705265805026" y1="249" x2="325.6846467004541" y2="212" stroke="#e3eaf2" stroke-width="1.55"/><line x1="411" y1="227.77052658050258" x2="373.99999999999994" y2="163.68464670045412" stroke="#e3eaf2" stroke-width="1.55"/><line x1="440" y1="220" x2="440" y2="146" stroke="#e3eaf2" stroke-width="1.55"/><line x1="469" y1="227.77052658050258" x2="506" y2="163.6846467004541" stroke="#e3eaf2" stroke-width="1.55"/><line x1="490.2294734194974" y1="248.99999999999997" x2="554.3153532995459" y2="211.99999999999994" stroke="#e3eaf2" stroke-width="1.55"/><path d="M312 372 L372 312 L508 312 L568 372 L508 432 L372 432 Z" fill="none" stroke="#b8933f" stroke-width="2.17" stroke-dasharray="6 5"/><rect x="410" y="40" width="60" height="52" rx="6" fill="#f8fafc" stroke="#ccd8e4" stroke-width="1.86"/><line x1="440" y1="92" x2="440" y2="146" stroke="#0a1526" stroke-width="3.10"/><rect x="428" y="146" width="24" height="34" rx="3" fill="#ffffff" stroke="#0a1526" stroke-width="2.17"/><circle cx="190" cy="150" r="4" fill="#b8933f" stroke="none" stroke-width="1.86"/><circle cx="220" cy="176" r="4" fill="#b8933f" stroke="none" stroke-width="1.86"/><circle cx="690" cy="202" r="4" fill="#b8933f" stroke="none" stroke-width="1.86"/><circle cx="720" cy="228" r="4" fill="#b8933f" stroke="none" stroke-width="1.86"/><line x1="238" y1="508" x2="642" y2="508" stroke="#ccd8e4" stroke-width="1.55"/><line x1="238" y1="498" x2="238" y2="518" stroke="#ccd8e4" stroke-width="1.55"/><line x1="642" y1="498" x2="642" y2="518" stroke="#ccd8e4" stroke-width="1.55"/><line x1="238" y1="508" x2="238" y2="92" stroke="#e3eaf2" stroke-width="1.55" stroke-dasharray="3 5"/></g>
+  <g>
+    <rect x="96" y="96" width="46" height="4" fill="#b8933f"/>
+    <rect x="96" y="96" width="4" height="46" fill="#2fb6c4"/>
+    <line x1="96" y1="700" x2="240" y2="700" stroke="#b8933f" stroke-width="2"/>
+    <line x1="1040" y1="104" x2="1104" y2="104" stroke="#ccd8e4" stroke-width="1"/>
+    <line x1="1104" y1="104" x2="1104" y2="140" stroke="#ccd8e4" stroke-width="1"/>
+    <circle cx="1104" cy="148" r="4" fill="#b8933f"/>
+  </g>
+</svg>
