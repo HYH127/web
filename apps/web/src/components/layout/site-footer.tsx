@@ -26,9 +26,9 @@ export function SiteFooter() {
             <p className="mt-4 max-w-xs text-small text-ink-400">{footer.note}</p>
 
             <dl className="mt-6 space-y-1.5 text-small">
-              <div className="flex items-baseline justify-between gap-6">
-                <dt className="shrink-0 text-small text-ink-400">邮箱</dt>
-                <dd className="text-right">
+              <div className="flex items-baseline">
+                <dt className="w-24 shrink-0 text-small text-ink-400">邮　箱</dt>
+                <dd>
                   <a
                     href={contact.emailHref}
                     className="text-ink-500 transition-colors hover:text-ink-900"
@@ -37,9 +37,9 @@ export function SiteFooter() {
                   </a>
                 </dd>
               </div>
-              <div className="flex items-baseline justify-between gap-6">
-                <dt className="shrink-0 text-small text-ink-400">电话</dt>
-                <dd className="text-right">
+              <div className="flex items-baseline">
+                <dt className="w-24 shrink-0 text-small text-ink-400">电　话</dt>
+                <dd>
                   <a
                     href={contact.phoneHref}
                     className="text-ink-500 transition-colors hover:text-ink-900"
@@ -48,9 +48,9 @@ export function SiteFooter() {
                   </a>
                 </dd>
               </div>
-              <div className="flex items-baseline justify-between gap-6">
-                <dt className="shrink-0 text-small text-ink-400">WhatsApp</dt>
-                <dd className="text-right">
+              <div className="flex items-baseline">
+                <dt className="w-24 shrink-0 text-small text-ink-400">WhatsApp</dt>
+                <dd>
                   <a
                     href={contact.whatsappHref}
                     target="_blank"
