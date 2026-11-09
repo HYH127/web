@@ -1,34 +1,59 @@
+import type { ReactElement } from "react";
 import { social } from "@/lib/messages";
 import { cn } from "@/lib/utils";
 
-const paths: Record<string, string> = {
-  youtube:
-    "M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z",
-  tiktok:
-    "M16.6 5.82A5.4 5.4 0 0 1 15.2 2h-3.1v13.1a2.9 2.9 0 1 1-2.1-2.8V9.2a6 6 0 1 0 5.2 5.9V8.9a8.5 8.5 0 0 0 4.9 1.6V7.4a5.4 5.4 0 0 1-3.5-1.58z",
-  facebook:
-    "M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5h1.65V3.6c-.29-.04-1.27-.13-2.41-.13-2.39 0-4.03 1.46-4.03 4.14V9.9H7.5V13h2.27v8h3.73z",
-  whatsapp:
-    "M12.04 2c-5.52 0-10 4.48-10 10 0 1.77.46 3.49 1.34 5.01L2 22l5.15-1.35A9.96 9.96 0 0 0 12.04 22c5.52 0 10-4.48 10-10s-4.48-10-10-10zm0 18.13c-1.56 0-3.09-.42-4.42-1.2l-.32-.19-3.05.8.81-2.98-.21-.33a8.12 8.12 0 0 1-1.25-4.36c0-4.5 3.66-8.16 8.16-8.16s8.16 3.66 8.16 8.16-3.66 8.16-8.16 8.16zm4.47-6.11c-.24-.12-1.44-.71-1.66-.79-.22-.08-.39-.12-.55.12-.16.24-.63.79-.77.95-.14.16-.28.18-.53.06-.24-.12-1.03-.38-1.96-1.21-.72-.64-1.21-1.44-1.35-1.68-.14-.24-.02-.37.11-.49.11-.11.24-.28.37-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.55-1.33-.75-1.82-.2-.48-.4-.41-.55-.42h-.47c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.69 2.58 4.1 3.62.57.25 1.02.4 1.37.51.57.18 1.1.15 1.51.09.46-.07 1.44-.59 1.64-1.16.2-.57.2-1.05.14-1.16-.06-.1-.22-.16-.46-.28z",
-};
+/**
+ * 官方品牌图标：每个平台都是「品牌色底 + 白色图形」的完整官方图标，
+ * 与 Instagram 的渐变图标保持一致，视觉清晰统一。
+ */
 
-/** 各社交平台的品牌色（方块底色，文字用白色） */
-const brandColors: Record<string, string> = {
-  youtube: "#FF0000",
-  tiktok: "#000000",
-  facebook: "#1877F2",
-  whatsapp: "#25D366",
-};
+/** YouTube：红色圆底 + 白色播放三角 */
+function YouTubeGlyph({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 72 72" aria-hidden focusable="false" className={className}>
+      <path
+        d="M36 72c19.88 0 36-16.12 36-36S55.88 0 36 0 0 16.12 0 36s16.12 36 36 36Z"
+        fill="#FF0002"
+      />
+      <path
+        d="M31.04 42.27V28.69l12.97 6.81-12.97 6.77Zm28.48-15.94s-.47-3.33-1.91-4.8c-1.83-1.92-3.87-1.93-4.81-2.04C46.09 19 36.01 19 36.01 19h-.02s-10.08 0-16.79.49c-.94.11-2.99.12-4.81 2.04-1.44 1.47-1.91 4.8-1.91 4.8S12 30.25 12 34.16v3.67c0 3.91.48 7.82.48 7.82s.47 3.33 1.91 4.8c1.83 1.92 4.22 1.86 5.29 2.06 3.84.37 12.32.49 12.32.49s10.09-.02 16.79-.51c.94-.11 2.99-.12 4.81-2.04 1.44-1.47 1.91-4.8 1.91-4.8s.48-3.91.48-7.82v-3.67c0-3.91-.48-7.82-.48-7.82Z"
+        fill="#fff"
+      />
+    </svg>
+  );
+}
 
-/** Instagram 官方图标：渐变圆角方块 + 白色相机 + 白圆点，需单独渲染（含渐变 defs） */
+/** TikTok：黑色圆角方块 + 白色音符 */
+function TikTokGlyph({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 32 32" aria-hidden focusable="false" className={className}>
+      <rect width="32" height="32" rx="7" fill="#000000" />
+      <path
+        d="M16.71 6.53c1.75-.03 3.48-.01 5.21-.03.11 2.04.84 4.12 2.33 5.56 1.49 1.48 3.6 2.16 5.65 2.39v5.37c-1.92-.06-3.86-.46-5.6-1.29-.76-.34-1.47-.79-2.16-1.24-.01 3.9.02 7.79-.03 11.67-.1 1.86-.72 3.72-1.8 5.25-1.74 2.56-4.77 4.23-7.88 4.28-1.91.11-3.81-.41-5.44-1.37-2.69-1.59-4.59-4.5-4.86-7.62-.03-.67-.04-1.33-.02-1.98.24-2.54 1.5-4.96 3.44-6.62 2.21-1.92 5.3-2.84 8.2-2.3.03 1.98-.05 3.95-.05 5.92-1.32-.43-2.87-.31-4.03.5-.84.55-1.49 1.38-1.82 2.33-.28.68-.2 1.43-.18 2.15.32 2.19 2.42 4.03 4.67 3.83 1.49-.02 2.92-.88 3.69-2.15.25-.44.53-.9.55-1.42.13-2.38.08-4.76.1-7.14.01-5.38-.02-10.74.03-16.09Z"
+        fill="#fff"
+      />
+    </svg>
+  );
+}
+
+/** Facebook：蓝色圆角方块 + 白色 "f" */
+function FacebookGlyph({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 258 258" aria-hidden focusable="false" className={className}>
+      <rect width="258" height="258" rx="28" fill="#3B5999" />
+      <path
+        d="M168 12h-27c-26 1-36 13-37 32-1 8 0 18 0 26v5h-27v30h27v78h31v-78h27l3-31h-30v-24c2-14 21-10 32-10V5c-9-1-17-1-26-1Z"
+        transform="translate(26 40)"
+        fill="#fff"
+      />
+    </svg>
+  );
+}
+
+/** Instagram：渐变圆角方块 + 白色相机 + 白圆点 */
 function InstagramGlyph({ className }: { className?: string }) {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      aria-hidden
-      focusable="false"
-      className={className}
-    >
+    <svg viewBox="0 0 24 24" aria-hidden focusable="false" className={className}>
       <defs>
         <radialGradient
           id="ig-grad"
@@ -62,31 +87,48 @@ function InstagramGlyph({ className }: { className?: string }) {
   );
 }
 
-export function SocialIcon({
-  platform,
-  className,
-}: {
-  platform: string;
-  className?: string;
-}) {
-  if (platform === "instagram") {
-    return <InstagramGlyph className={className} />;
-  }
-  const d = paths[platform];
-  if (!d) return null;
+/** WhatsApp：绿色渐变圆角方块 + 白色气泡电话图标 */
+function WhatsAppGlyph({ className }: { className?: string }) {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      aria-hidden
-      focusable="false"
-      className={cn("h-4 w-4 fill-current", className)}
-    >
-      <path d={d} />
+    <svg viewBox="0 0 64 64" aria-hidden focusable="false" className={className}>
+      <defs>
+        <linearGradient
+          id="wa-grad"
+          x1="32"
+          x2="32"
+          y1="4"
+          y2="64.81"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop offset="0" stopColor="#1df47c" />
+          <stop offset="0.31" stopColor="#12df63" />
+          <stop offset="0.75" stopColor="#05c443" />
+          <stop offset="1" stopColor="#00ba37" />
+        </linearGradient>
+      </defs>
+      <rect width="64" height="64" rx="11.2" fill="url(#wa-grad)" />
+      <path
+        d="M27.42 21.38l2 5.43a.76.76 0 0 1-.1.74 10.32 10.32 0 0 1-1.48 1.71.8.8 0 0 0-.16 1.09c1.23 1.7 4.42 5.7 8.57 7.13a.79.79 0 0 0 .89-.29l1.66-2.21a.8.8 0 0 1 1-.23l5.2 2.6a.79.79 0 0 1 .4 1c-.57 1.62-2.36 5.57-6.19 4.93a20.79 20.79 0 0 1-12.81-7.24c-3.14-3.92-9.34-14 .19-15.14a.8.8 0 0 1 1.03.45Z"
+        fill="#fff"
+      />
+      <path
+        d="M33.6 54.8a24.21 24.21 0 0 1-11.94-3.13l-12 3.08 4.41-9.91A22 22 0 0 1 10 32C10 19.43 20.59 9.2 33.6 9.2S57.2 19.43 57.2 32 46.61 54.8 33.6 54.8Zm-11.31-7.43.73.45a20.13 20.13 0 0 0 10.58 3c10.81 0 19.6-8.43 19.6-18.8S44.41 13.2 33.6 13.2 14 21.63 14 32a18.13 18.13 0 0 0 4 11.34l.75.95-3.61 6.12Z"
+        fill="#fff"
+      />
     </svg>
   );
 }
 
-/** 社交图标方块：底色用品牌色，hover 轻微上浮 + 压暗 */
+/** 各平台的官方图标渲染器（均自带品牌底 + 白色图形） */
+const glyphs: Record<string, (p: { className?: string }) => ReactElement> = {
+  youtube: YouTubeGlyph,
+  tiktok: TikTokGlyph,
+  facebook: FacebookGlyph,
+  instagram: InstagramGlyph,
+  whatsapp: WhatsAppGlyph,
+};
+
+/** 社交图标方块：直接渲染官方品牌图标，hover 轻微上浮 + 压暗 */
 function BrandTile({
   href,
   label,
@@ -98,8 +140,7 @@ function BrandTile({
   platform: string;
   size?: "sm" | "md";
 }) {
-  const bg = brandColors[platform] ?? "#33475e";
-  const isInstagram = platform === "instagram";
+  const Glyph = glyphs[platform];
   return (
     <a
       href={href}
@@ -108,17 +149,13 @@ function BrandTile({
       aria-label={`${label}（新窗口打开）`}
       title={label}
       className={cn(
-        "flex items-center justify-center rounded-md text-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md hover:brightness-90",
+        "flex items-center justify-center rounded-lg shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md hover:brightness-90",
         size === "sm" ? "h-8 w-8" : "h-10 w-10",
-        isInstagram && "bg-transparent shadow-none hover:brightness-100 hover:opacity-90",
       )}
-      style={isInstagram ? undefined : { backgroundColor: bg }}
     >
-      {isInstagram ? (
-        <InstagramGlyph className={size === "sm" ? "h-7 w-7" : "h-9 w-9"} />
-      ) : (
-        <SocialIcon platform={platform} className={size === "sm" ? "h-3.5 w-3.5" : undefined} />
-      )}
+      {Glyph ? (
+        <Glyph className={size === "sm" ? "h-7 w-7" : "h-9 w-9"} />
+      ) : null}
     </a>
   );
 }
