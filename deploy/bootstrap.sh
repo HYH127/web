@@ -85,11 +85,17 @@ sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE ${APP_DB_NAME} TO ${A
 sudo -u postgres psql -d "${APP_DB_NAME}" -c "GRANT ALL ON SCHEMA public TO ${APP_DB_USER}" >/dev/null
 
 # ---------------------------------------------------------------- 5. 防火墙
-log "配置防火墙"
-ufw allow OpenSSH >/dev/null || true
-ufw allow 'Nginx Full' >/dev/null || true
-ufw --force enable >/dev/null || true
-ufw status | head -6
+# 云上已有安全组，ufw 默认不开启：远程操作时误配 ufw 会把 SSH 一起关掉。
+# 需要主机级防火墙时用 ENABLE_UFW=1 显式开启。
+if [ "${ENABLE_UFW:-0}" = "1" ]; then
+  log "配置 ufw"
+  ufw allow OpenSSH >/dev/null || true
+  ufw allow 80,443/tcp >/dev/null || true
+  ufw --force enable >/dev/null || true
+  ufw status | head -6
+else
+  log "跳过 ufw（云安全组已负责入站，ENABLE_UFW=1 可开启）"
+fi
 
 # ---------------------------------------------------------------- 6. 收尾
 log "完成。请记录以下信息："
