@@ -122,7 +122,11 @@ export function SwipeRow({ children, className, hint = "右滑查看更多", as 
     };
 
     const onScroll = () => schedule();
-    const onResize = () => schedule();
+    // 视口变化后卡片宽度/间距都会变，必须重量一次再画，否则中心点算错会闪一下
+    const onResize = () => {
+      measure();
+      schedule();
+    };
 
     const attach = () => {
       if (attached) return;
