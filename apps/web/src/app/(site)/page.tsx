@@ -79,12 +79,19 @@ export default async function HomePage() {
                 <span className="whitespace-nowrap text-champagne-700">{hero.titleBottom}</span>
               </h1>
               <p className="mt-7 max-w-xl text-ink-500">{hero.subtitle}</p>
-              <div className="mt-10 flex flex-wrap items-center gap-4">
-                <ButtonLink href={hero.primaryCta.href} size="lg">
+              {/* 手机上两个按钮等宽两栏：写成 flex-wrap 会让两个按钮宽度随字数
+                  长短不一，左边缘看着参差；等宽后整块对齐更稳 */}
+              <div className="mt-10 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:items-center sm:gap-4">
+                <ButtonLink href={hero.primaryCta.href} size="lg" className="w-full sm:w-auto">
                   {hero.primaryCta.label}
-                  <ArrowRight className="h-4 w-4" />
+                  <ArrowRight className="h-4 w-4 shrink-0" />
                 </ButtonLink>
-                <ButtonLink href={hero.secondaryCta.href} variant="ghost" size="lg">
+                <ButtonLink
+                  href={hero.secondaryCta.href}
+                  variant="ghost"
+                  size="lg"
+                  className="w-full sm:w-auto"
+                >
                   {hero.secondaryCta.label}
                 </ButtonLink>
               </div>
@@ -348,7 +355,7 @@ export default async function HomePage() {
             title="从询盘到交付，四步"
             description="每一步都有明确的交付物和时间口径。做不了的地方，我们先把话说在前面，而不是先报一个好看的低价。"
             action={
-              <ButtonLink href="/contact" variant="lumenSoft">
+              <ButtonLink href="/contact" variant="gold">
                 发起询盘
                 <ArrowRight className="h-4 w-4" />
               </ButtonLink>

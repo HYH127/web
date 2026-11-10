@@ -122,7 +122,7 @@ const PUBLIC_DIR = path.resolve(process.cwd(), "public/map");
 fs.mkdirSync(PUBLIC_DIR, { recursive: true });
 const baseSvg = [
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${view.x} ${view.y} ${view.w} ${view.h}" width="${view.w}" height="${view.h}">`,
-  `<g fill="#eef3f8" stroke="#dbe5f0" stroke-width="0.5" stroke-linejoin="round">`,
+  `<g fill="#e3ebf4" stroke="#c7d6e5" stroke-width="0.5" stroke-linejoin="round">`,
   ...countries.map((c) => `<path d="${c.d}"/>`),
   "</g></svg>",
 ].join("");

@@ -74,9 +74,15 @@ export function pathOfCountry(alpha2: string): string | undefined {
   return id ? pathById.get(id) : undefined;
 }
 
-/** 亮度分级 → 填色（白底上由浅到深，控制饱和度避免成色块） */
+/**
+ * 亮度分级 → 填色（白底上由浅到深，控制饱和度避免成色块）
+ *
+ * 0 级（无贸易记录的国家）原来是 #eef3f8，在白底上几乎看不出边界，整张图
+ * 显得「没画完」。压深到 #e3ebf4 并把描边提到 #8fc7d0，陆地轮廓才立得住，
+ * 同时仍比 1 级浅，不会和贸易国抢视觉。
+ */
 export const LEVEL_FILL = [
-  "#eef3f8",
+  "#e3ebf4",
   "#e2f2f4",
   "#c8e9ed",
   "#a3dbe2",
