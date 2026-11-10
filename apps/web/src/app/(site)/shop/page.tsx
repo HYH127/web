@@ -107,7 +107,7 @@ export default async function ShopPage({
 
           <div className="mt-16 flex flex-col gap-5 border-t border-line pt-10 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="text-h3 font-light text-ink-900">没有找到合适的规格？</p>
+              <p className="text-h3 font-semibold text-ink-900">没有找到合适的规格？</p>
               <p className="mt-2 text-small text-ink-500">
                 常备 SKU 之外，支持按图纸打样与 OEM。发图纸或样品照片，24 小时内给可行性与报价。
               </p>

@@ -297,7 +297,7 @@ export function PostEditor({ initial }: { initial?: EditablePost }) {
         <p className="text-micro tracking-[0.18em] text-champagne-700 uppercase">
           {editing ? "已保存" : "已发布"}
         </p>
-        <h2 className="text-h2 mt-4 font-light text-ink-900">
+        <h2 className="text-h2 mt-4 font-semibold text-ink-900">
           {editing ? "修改已写入" : "记录已写入"}
         </h2>
         <p className="mt-3 text-ink-500">
@@ -631,7 +631,7 @@ export function PostEditor({ initial }: { initial?: EditablePost }) {
                   rows={block.type === "heading" ? 1 : 4}
                   className={cn(
                     "mt-3 w-full resize-y rounded-sm border border-line-strong bg-surface px-4 py-3 text-ink-900 placeholder:text-ink-400 focus:border-lumen-500/50 focus:outline-none",
-                    block.type === "heading" ? "text-h3 font-light" : "text-small",
+                    block.type === "heading" ? "text-h3 font-semibold" : "text-small",
                   )}
                 />
               )}

@@ -90,7 +90,7 @@ export default async function CasesPage({
                       </span>
                     </div>
 
-                    <h2 className="text-h3 mt-6 font-light text-ink-900 transition-colors group-hover:text-lumen-700">
+                    <h2 className="text-h3 mt-6 font-semibold text-ink-900 transition-colors group-hover:text-lumen-700">
                       {item.title}
                     </h2>
                     <p className="mt-3 flex-1 text-small text-ink-500">{item.summary}</p>
@@ -128,7 +128,7 @@ export default async function CasesPage({
 
           <div className="mt-16 flex flex-col gap-5 border-t border-line pt-10 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="text-h3 font-light text-ink-900">想看和你品类相近的案例？</p>
+              <p className="text-h3 font-semibold text-ink-900">想看和你品类相近的案例？</p>
               <p className="mt-2 text-small text-ink-500">
                 告诉我们品类、年采购量与目标市场，我们会挑 2–3 个可对标的合作发给你。
               </p>

@@ -13,8 +13,8 @@
   --color-surface-strong: #e6edf4;
 
   /* --- 分隔线 --- */
-  --color-line: #e3eaf2;
-  --color-line-strong: #ccd8e4;
+  --color-line: #dce5f0;
+  --color-line-strong: #c4d2e2;
 
   /* --- 主光：冷光青（亮底需压深，保证文字对比度） --- */
   --color-lumen-300: #b7eef4;
@@ -37,38 +37,51 @@
   --color-champagne-600: #96742c;
   --color-champagne-700: #745921;
 
-  /* --- 文本 --- */
+  /* --- 文本 ---
+     2026-11-10：整体压深一档。原来的 500/400 是浅灰，#566a80 在白底上大面积
+     使用会显得发飘、不厚重；压深后同样字数读起来更"实"。 */
   --color-ink-900: #0a1526;
   --color-ink-800: #16273d;
-  --color-ink-700: #33475e;
-  --color-ink-500: #566a80;
-  --color-ink-400: #64768a;
-  --color-ink-300: #93a3b4;
+  --color-ink-700: #2b3f55;
+  --color-ink-500: #3f5468;
+  --color-ink-400: #4f6379;
+  --color-ink-300: #7f93a6;
 
-  /* --- 字体（对齐设计稿：Inter Tight / Playfair Display / Noto Sans SC） --- */
-  --font-sans: "Inter Tight", "Inter", -apple-system, BlinkMacSystemFont,
-    "Segoe UI", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
-  --font-display: "Playfair Display", "Noto Serif SC", "Songti SC", Georgia,
-    serif;
+  /* --- 深色区块（导航栏 / 页脚）：比 ink-900 略暖一点，避免纯黑发闷 --- */
+  --color-abyss-900: #0b1a2b;
+  --color-abyss-800: #10243a;
+  --color-abyss-700: #17304b;
+
+  /* --- 字体 ---
+     latin 子集自托管在 src/app/fonts（见 src/lib/fonts.ts），中文逐字回退系统字体。
+     注：这两个字体以前只写在字体栈里、从未真正加载，等于白写。 */
+  --font-sans: var(--font-latin-sans), "Inter Tight", "Inter", -apple-system,
+    BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --font-display: var(--font-latin-display), "Playfair Display",
+    "Noto Serif SC", "Songti SC", "STSong", Georgia, serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 
   /* --- 字号层级（编辑式排版） --- */
   --text-display: clamp(2.75rem, 6.2vw, 5.25rem);
   --text-display--line-height: 1;
   --text-display--letter-spacing: -0.035em;
-  --text-display--font-weight: 300;
+  --text-display--font-weight: 600;
 
   --text-h1: clamp(2rem, 3.6vw, 3.25rem);
   --text-h1--line-height: 1.06;
   --text-h1--letter-spacing: -0.025em;
+  --text-h1--font-weight: 600;
 
   --text-h2: clamp(1.5rem, 2.4vw, 2.25rem);
   --text-h2--line-height: 1.15;
   --text-h2--letter-spacing: -0.02em;
+  --text-h2--font-weight: 600;
 
   --text-h3: clamp(1.125rem, 1.5vw, 1.5rem);
   --text-h3--line-height: 1.3;
   --text-h3--letter-spacing: -0.01em;
+  --text-h3--font-weight: 600;
 
   --text-body: 1rem;
   --text-body--line-height: 1.7;
@@ -79,6 +92,7 @@
   --text-micro: 0.6875rem;
   --text-micro--line-height: 1.4;
   --text-micro--letter-spacing: 0.16em;
+  --text-micro--font-weight: 500;
 
   /* --- 圆角 --- */
   --radius-xs: 4px;
@@ -195,6 +209,13 @@
     color: var(--color-ink-900);
   }
 
+  /* 衬线体默认给到 600：数据、编号、价格这些"要压得住"的地方都靠它。
+     需要更轻的地方（长引言、logotype）用 font-medium 覆盖即可 ——
+     utilities 层永远压过 base 层。 */
+  .font-display {
+    font-weight: 600;
+  }
+
   /* 可访问性：键盘焦点始终可见 */
   :focus-visible {
     outline: 2px solid var(--color-lumen-600);
@@ -222,6 +243,7 @@
    ============================================================ */
 @utility label-micro {
   font-size: var(--text-micro);
+  font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--color-ink-400);

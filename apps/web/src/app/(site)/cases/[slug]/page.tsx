@@ -64,7 +64,7 @@ export default async function CaseDetailPage({
             ))}
           </div>
 
-          <h1 className="text-h1 mt-6 max-w-4xl font-light text-ink-900">{study.title}</h1>
+          <h1 className="text-h1 mt-6 max-w-4xl font-semibold text-ink-900">{study.title}</h1>
           <p className="mt-5 max-w-2xl text-ink-500">{study.summary}</p>
 
           <p className="mt-8 flex flex-wrap items-center gap-3 text-micro tracking-[0.14em] text-ink-400 uppercase">
@@ -88,7 +88,7 @@ export default async function CaseDetailPage({
                 <dt className="text-micro tracking-[0.16em] text-ink-400 uppercase">
                   {metric.label}
                 </dt>
-                <dd className="mt-3 font-display text-4xl font-light text-champagne-700">
+                <dd className="mt-3 font-display text-4xl text-champagne-700">
                   {metric.value}
                 </dd>
                 {metric.note ? (
@@ -107,7 +107,7 @@ export default async function CaseDetailPage({
             <div className="max-w-3xl space-y-14">
               {study.blocks.map((block) => (
                 <article key={block.heading}>
-                  <h2 className="text-h2 font-light text-ink-900">{block.heading}</h2>
+                  <h2 className="text-h2 font-semibold text-ink-900">{block.heading}</h2>
                   {block.paragraphs?.map((paragraph) => (
                     <p key={paragraph.slice(0, 18)} className="mt-4 text-ink-500">
                       {paragraph}
@@ -123,7 +123,7 @@ export default async function CaseDetailPage({
                     </ul>
                   ) : null}
                   {block.quote ? (
-                    <blockquote className="mt-6 border-l-2 border-champagne-500 pl-5 font-display text-xl font-light text-ink-900">
+                    <blockquote className="mt-6 border-l-2 border-champagne-500 pl-5 font-display text-xl font-medium text-ink-900">
                       “{block.quote}”
                     </blockquote>
                   ) : null}

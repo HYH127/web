@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, ArrowUp, ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUp, ArrowUpRight, BadgeCheck } from "lucide-react";
 import { Container, Section, SectionHeading } from "@/components/ui/container";
 import { SwipeRow } from "@/components/ui/swipe-row";
 import { ButtonLink } from "@/components/ui/button";
@@ -18,6 +18,7 @@ import {
 import { LEVEL_FILL } from "@/lib/world";
 import {
   categoryMix,
+  certifications,
   company,
   process,
   regionMix,
@@ -72,7 +73,7 @@ export default async function HomePage() {
           <div className="relative z-10 flex h-full items-start px-6 pt-10 md:px-10 md:pt-14">
             <div className="max-w-2xl">
               <p className="label-micro">{hero.eyebrow}</p>
-              <h1 className="text-display mt-6 font-light text-ink-900">
+              <h1 className="text-display mt-6 font-semibold text-ink-900">
                 {hero.titleTop}
                 <span className="mx-3 inline-block h-px w-14 translate-y-[-0.32em] bg-champagne-500 align-middle md:w-20" />
                 <span className="whitespace-nowrap text-champagne-700">{hero.titleBottom}</span>
@@ -135,13 +136,33 @@ export default async function HomePage() {
               </ButtonLink>
             }
           />
-          <dl className="mt-14 grid grid-cols-2 gap-8 border-t border-line pt-10 md:grid-cols-4">
+
+          {/* 资质条：采购方判断"能不能合作"的第一道门槛，放在数字之前 */}
+          <ul className="mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-md border border-line bg-line md:grid-cols-4">
+            {certifications.map((item) => (
+              <li key={item.name} className="bg-paper px-5 py-5">
+                <span className="flex items-center gap-2">
+                  <BadgeCheck aria-hidden className="h-4 w-4 shrink-0 text-lumen-600" />
+                  <span className="text-small font-semibold text-ink-900">{item.name}</span>
+                </span>
+                <p className="mt-2.5 text-micro font-medium tracking-[0.1em] text-ink-400 uppercase">
+                  {item.note}
+                </p>
+                <p className="mt-1 text-micro font-medium text-ink-500">自 {item.year} 年起有效</p>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-4 text-micro font-medium text-ink-400">
+            证书原件、验厂报告与 AEO 信用等级编号可在签约前索取，不做截图交付。
+          </p>
+
+          <dl className="mt-12 grid grid-cols-2 gap-8 border-t border-line pt-10 md:grid-cols-4">
             {scale.map((item, index) => (
               <div key={item.label}>
                 <dt className="text-micro tracking-[0.16em] text-ink-400 uppercase">
                   {item.label}
                 </dt>
-                <dd className="mt-3 font-display text-4xl font-light text-champagne-700">
+                <dd className="mt-3 font-display text-4xl text-champagne-700">
                   {index === 0 ? countryCount : item.value}
                 </dd>
               </div>
@@ -177,7 +198,7 @@ export default async function HomePage() {
             {trackRecord.map((item) => (
               <div key={item.label}>
                 <dd className="flex items-baseline gap-1.5">
-                  <span className="font-display text-2xl font-light text-ink-900">
+                  <span className="font-display text-2xl text-ink-900">
                     {item.value}
                   </span>
                   <span className="text-micro text-champagne-700">{item.unit}</span>
@@ -232,7 +253,7 @@ export default async function HomePage() {
                       {formatFactoryDate(post.publishedAt)}
                     </time>
                   </p>
-                  <h3 className="text-h3 mt-3 font-light text-ink-900 transition-colors group-hover:text-lumen-700">
+                  <h3 className="text-h3 mt-3 font-semibold text-ink-900 transition-colors group-hover:text-lumen-700">
                     {post.title}
                   </h3>
                   <p className="mt-2 text-small text-ink-500">
@@ -361,7 +382,7 @@ export default async function HomePage() {
                   <p className="font-display text-small text-champagne-600">{item.step}</p>
                   <p className="text-micro text-ink-400">{item.span}</p>
                 </div>
-                <p className="mt-3 text-h3 font-light text-ink-900">{item.title}</p>
+                <p className="mt-3 text-h3 font-semibold text-ink-900">{item.title}</p>
                 <p className="mt-3 text-small text-ink-500">{item.body}</p>
                 <p className="mt-4 text-micro tracking-[0.12em] text-ink-400 uppercase">
                   {item.meta}

@@ -136,7 +136,7 @@ export default async function FactoryPage({
                           {formatFactoryDate(featured.publishedAt)}
                         </time>
                       </div>
-                      <h2 className="text-h2 mt-6 font-light text-ink-900">
+                      <h2 className="text-h2 mt-6 font-semibold text-ink-900">
                         {featured.title}
                       </h2>
                       <p className="mt-4 text-ink-500">{featured.summary}</p>
@@ -190,7 +190,7 @@ export default async function FactoryPage({
                               <span>{categoryLabel(item)}</span>
                             </div>
 
-                            <h3 className="text-h3 mt-3 font-light text-ink-900 transition-colors group-hover:text-lumen-700">
+                            <h3 className="text-h3 mt-3 font-semibold text-ink-900 transition-colors group-hover:text-lumen-700">
                               {item.title}
                             </h3>
                             <p className="mt-3 line-clamp-2 flex-1 text-small text-ink-500">

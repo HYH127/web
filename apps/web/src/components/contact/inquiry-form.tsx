@@ -76,7 +76,7 @@ export function InquiryForm() {
         <span className="flex h-12 w-12 items-center justify-center rounded-full border border-lumen-500/40 bg-lumen-300/40 text-lumen-700">
           <Check className="h-5 w-5" />
         </span>
-        <h2 className="text-h2 mt-6 font-light text-ink-900">询盘已收到</h2>
+        <h2 className="text-h2 mt-6 font-semibold text-ink-900">询盘已收到</h2>
         <p className="mt-3 text-ink-500">
           {`编号 `}
           <span className="font-display text-ink-900">{done.reference}</span>

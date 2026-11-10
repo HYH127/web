@@ -19,7 +19,7 @@ export default function LoginPage() {
       <Container size="narrow" className="relative max-w-md">
         <div className="glass-panel rounded-lg p-8 md:p-10">
           <p className="label-micro">{pages.login.eyebrow}</p>
-          <h1 className="text-h2 mt-4 font-light text-ink-900">{pages.login.title}</h1>
+          <h1 className="text-h2 mt-4 font-semibold text-ink-900">{pages.login.title}</h1>
           <p className="mt-3 text-small text-ink-500">{pages.login.description}</p>
 
           <LoginForm />

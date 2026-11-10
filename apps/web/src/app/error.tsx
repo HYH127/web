@@ -23,7 +23,7 @@ export default function GlobalError({
       />
       <div className="relative w-full max-w-xl">
         <p className="label-micro">{brand.name} · ERROR</p>
-        <h1 className="text-h1 mt-5 font-light text-ink-900">{states.errorTitle}</h1>
+        <h1 className="text-h1 mt-5 font-semibold text-ink-900">{states.errorTitle}</h1>
         <p className="mt-4 text-ink-500">{states.errorBody}</p>
         {error.digest ? (
           <p className="mt-3 text-micro tracking-[0.14em] text-ink-400 uppercase">

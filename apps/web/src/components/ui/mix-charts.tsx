@@ -122,7 +122,7 @@ export function MixDonut({
         </svg>
 
         <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
-          <span className="font-display text-[2rem] leading-none font-light text-champagne-700">
+          <span className="font-display text-[2rem] leading-none text-champagne-700">
             {currentPct}
             <span className="ml-0.5 text-sm text-ink-400">{unit}</span>
           </span>

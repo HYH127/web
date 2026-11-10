@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { company } from "@/lib/content/company";
+import { displayLatin, sansLatin } from "@/lib/fonts";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://nordel.cn"),
@@ -38,7 +39,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#ffffff",
+  themeColor: "#0b1a2b",
   colorScheme: "light",
 };
 
@@ -46,7 +47,11 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="zh-CN" suppressHydrationWarning>
+    <html
+      lang="zh-CN"
+      suppressHydrationWarning
+      className={`${sansLatin.variable} ${displayLatin.variable}`}
+    >
       <body className="min-h-dvh bg-paper text-ink-900 antialiased">
         {children}
       </body>

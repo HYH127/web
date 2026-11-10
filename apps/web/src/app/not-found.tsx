@@ -18,7 +18,7 @@ export default function NotFound() {
       <div className="relative flex flex-1 items-center px-6 md:px-10">
         <div className="mx-auto w-full max-w-2xl">
           <p className="label-micro">ERROR 404</p>
-          <h1 className="text-display mt-6 font-light text-ink-900">
+          <h1 className="text-display mt-6 font-semibold text-ink-900">
             {states.notFoundTitle}
           </h1>
           <p className="mt-6 max-w-md text-ink-500">{states.notFoundBody}</p>

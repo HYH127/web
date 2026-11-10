@@ -77,7 +77,7 @@ export default async function FactoryDetailPage({ params }: PageProps) {
             <Badge>现场记录</Badge>
           </div>
 
-          <h1 className="text-h1 mt-6 max-w-4xl font-light text-ink-900">{post.title}</h1>
+          <h1 className="text-h1 mt-6 max-w-4xl font-semibold text-ink-900">{post.title}</h1>
           <p className="mt-5 max-w-2xl text-ink-500">{post.summary}</p>
 
           <p className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 text-micro tracking-[0.14em] text-ink-400 uppercase">

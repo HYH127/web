@@ -47,7 +47,7 @@ export function FactoryContent({ blocks }: { blocks: FactoryBlock[] }) {
           return (
             <blockquote
               key={key}
-              className="mt-10 border-l-2 border-champagne-400 bg-champagne-200/30 px-6 py-5 font-display text-xl leading-relaxed text-ink-800"
+              className="mt-10 border-l-2 border-champagne-400 bg-champagne-200/30 px-6 py-5 font-display text-xl font-medium leading-relaxed text-ink-800"
             >
               {block.text}
             </blockquote>

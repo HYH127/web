@@ -96,7 +96,7 @@ export default async function ProductDetailPage({
             {/* 信息区 */}
             <div>
               <p className="label-micro">{categoryLabel(product.category)}</p>
-              <h1 className="text-h2 mt-4 font-light text-ink-900 md:text-[2.6rem] md:leading-[1.15]">
+              <h1 className="text-h2 mt-4 font-semibold text-ink-900 md:text-[2.6rem] md:leading-[1.15]">
                 {product.name.split(" ").map((part, index, arr) => (
                   <span key={`${part}-${index}`} className="whitespace-nowrap">
                     {part}
@@ -159,7 +159,7 @@ export default async function ProductDetailPage({
           <div className="grid gap-12 lg:grid-cols-[280px_minmax(0,1fr)]">
             <div>
               <p className="label-micro">DETAILS</p>
-              <h2 className="text-h2 mt-4 font-light text-ink-900">产品说明</h2>
+              <h2 className="text-h2 mt-4 font-semibold text-ink-900">产品说明</h2>
               <dl className="mt-8 space-y-3 text-small">
                 {[
                   { label: "品类", value: categoryLabel(product.category) },
@@ -199,7 +199,7 @@ export default async function ProductDetailPage({
       <Section className="border-t border-line">
         <Container>
           <div className="flex items-baseline justify-between gap-6">
-            <h2 className="text-h2 font-light text-ink-900">同类产品</h2>
+            <h2 className="text-h2 font-semibold text-ink-900">同类产品</h2>
             <Link href="/shop" className="text-small text-lumen-700 hover:text-lumen-800">
               查看全部
             </Link>

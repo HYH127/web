@@ -36,7 +36,7 @@ export default function AboutPage() {
           <div className="grid items-start gap-12 lg:grid-cols-[1.08fr_1fr]">
             <div>
               <p className="label-micro">{heritage.eyebrow}</p>
-              <h2 className="text-h2 mt-4 font-light text-ink-900">{heritage.title}</h2>
+              <h2 className="text-h2 mt-4 font-semibold text-ink-900">{heritage.title}</h2>
               <p className="mt-6 text-ink-500">{heritage.lead}</p>
               <p className="mt-4 text-ink-500">
                 {company.intro}
@@ -48,7 +48,7 @@ export default function AboutPage() {
               <dl className="mt-10 grid grid-cols-2 gap-x-6 gap-y-8 border-t border-line pt-8">
                 {facts.map((fact) => (
                   <div key={fact.label}>
-                    <dd className="font-display text-3xl font-light text-champagne-700">
+                    <dd className="font-display text-3xl text-champagne-700">
                       {fact.value}
                     </dd>
                     <dt className="mt-2 text-micro tracking-[0.14em] text-ink-500 uppercase">
@@ -97,7 +97,7 @@ export default function AboutPage() {
             {capabilities.map((item) => (
               <article key={item.key} className="glass-panel rounded-lg p-7">
                 <div className="flex items-baseline justify-between">
-                  <p className="text-h3 font-light text-ink-900">{item.title}</p>
+                  <p className="text-h3 font-semibold text-ink-900">{item.title}</p>
                   <span className="font-display text-small text-champagne-600">{item.key}</span>
                 </div>
                 <p className="mt-3 text-small text-ink-500">{item.body}</p>
@@ -120,7 +120,7 @@ export default function AboutPage() {
           <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
             <div>
               <p className="label-micro">CERTIFICATIONS</p>
-              <h2 className="text-h3 mt-3 font-light text-ink-900">资质与体系</h2>
+              <h2 className="text-h3 mt-3 font-semibold text-ink-900">资质与体系</h2>
             </div>
             <dl className="grid flex-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {certifications.map((item) => (
@@ -151,7 +151,7 @@ export default function AboutPage() {
                   aria-hidden
                   className="absolute -top-px left-0 h-px w-10 bg-champagne-500"
                 />
-                <p className="font-display text-h3 font-light text-champagne-700">{item.year}</p>
+                <p className="font-display text-h3 text-champagne-700">{item.year}</p>
                 <p className="mt-3 text-small text-ink-900">{item.title}</p>
                 <p className="mt-2 text-small text-ink-500">{item.body}</p>
               </li>
@@ -183,7 +183,7 @@ export default function AboutPage() {
 
           <div className="mt-14 flex flex-col gap-5 border-t border-line pt-10 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="text-h3 font-light text-ink-900">先聊一次，不一定要下单</p>
+              <p className="text-h3 font-semibold text-ink-900">先聊一次，不一定要下单</p>
               <p className="mt-2 text-small text-ink-500">
                 告诉我们品类与目标市场，我们会先说哪些能做、哪些不建议做。
               </p>

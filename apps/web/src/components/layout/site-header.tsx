@@ -5,10 +5,20 @@ import { usePathname } from "next/navigation";
 import { Menu, ShoppingBag, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { brand, header, nav } from "@/lib/messages";
+import { contact } from "@/lib/content/company";
 import { cn } from "@/lib/utils";
 import { fetchMe, type SessionUser } from "@/lib/auth-client";
 import { SocialRail } from "./social";
 
+/**
+ * 站点导航
+ *
+ * 2026-11-10 改版：从「透明 → 白底」改为常驻深墨蓝实底。
+ * 原因：浅色透明的导航在白底页面上几乎没有重量，整站看着轻飘；
+ * 深色横条 + 金色 CTA 是 B2B / 工业类站点的通用做法（Flexport、Thomasnet、
+ * Maersk 的深色顶栏都是这个逻辑）—— 一眼给出「这是个正经公司」的基调，
+ * 同时把「询盘」这个唯一转化入口从浅金描边升级成实底金按钮，对比更明确。
+ */
 export function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -48,63 +58,61 @@ export function SiteHeader() {
     <header
       id="site-top"
       className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-all duration-300 ease-lumen",
-        scrolled
-          ? "border-b border-line bg-paper/85 backdrop-blur-xl"
-          : "border-b border-transparent bg-transparent",
+        "fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-abyss-900 text-white transition-shadow duration-300",
+        scrolled ? "shadow-[0_18px_36px_-24px_rgb(10_21_38_/_0.85)]" : "shadow-none",
       )}
     >
-      <div className="mx-auto flex h-17 w-full max-w-[1440px] items-center justify-between px-6 md:px-10">
-        <Link href="/" className="group flex items-baseline gap-3">
-          <span className="font-display text-xl tracking-[0.14em] text-ink-900">
+      <div className="mx-auto flex h-17 w-full max-w-[1440px] items-center justify-between gap-6 px-6 md:px-10">
+        <Link href="/" className="group flex shrink-0 items-baseline gap-3">
+          <span className="font-display text-xl font-medium tracking-[0.14em] text-white">
             {brand.name}
           </span>
-          <span className="hidden text-micro tracking-[0.18em] text-ink-400 uppercase xl:block">
+          <span className="hidden text-micro font-medium tracking-[0.18em] text-white/40 uppercase xl:block">
             {brand.tagline}
           </span>
         </Link>
 
-        <nav aria-label="主导航" className="hidden items-center gap-1 lg:flex">
+        <nav aria-label="主导航" className="hidden items-center gap-0.5 lg:flex">
           {nav.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               aria-current={isActive(item.href) ? "page" : undefined}
               className={cn(
-                "relative rounded-xs px-3.5 py-2 text-small transition-colors duration-300",
+                "relative rounded-xs px-3.5 py-2 text-small font-medium transition-colors duration-200",
                 isActive(item.href)
-                  ? "text-ink-900"
-                  : "text-ink-500 hover:text-ink-900",
+                  ? "text-white"
+                  : "text-white/65 hover:bg-white/5 hover:text-white",
               )}
             >
               {item.label}
               {isActive(item.href) ? (
                 <span
                   aria-hidden
-                  className="absolute inset-x-3.5 -bottom-0.5 h-px bg-champagne-500"
+                  className="absolute inset-x-3.5 -bottom-[9px] h-[2px] bg-champagne-400"
                 />
               ) : null}
             </Link>
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex shrink-0 items-center gap-1">
           <Link
             href="/cart"
             aria-label={header.cart}
-            className="hidden h-10 w-10 items-center justify-center rounded-sm text-ink-500 transition-colors hover:text-ink-900 sm:flex"
+            className="hidden h-10 w-10 items-center justify-center rounded-sm text-white/70 transition-colors hover:bg-white/5 hover:text-white sm:flex"
           >
             <ShoppingBag className="h-4.5 w-4.5" />
           </Link>
           <Link
             href={loginHref}
-            className="hidden rounded-sm px-3 py-2 text-small text-ink-500 transition-colors hover:text-ink-900 sm:block"
+            className="hidden rounded-sm px-3 py-2 text-small font-medium text-white/70 transition-colors hover:text-white sm:block"
           >
             {loginLabel}
           </Link>
           <Link
             href="/contact"
-            className="hidden h-10 items-center rounded-sm border border-champagne-400/80 bg-champagne-200/60 px-5 text-small text-champagne-700 transition-all duration-300 hover:border-champagne-500 hover:shadow-glow-gold md:inline-flex"
+            className="inline-flex h-9 items-center gap-1.5 rounded-sm bg-champagne-400 px-4 text-small font-semibold text-abyss-900 transition-colors duration-200 hover:bg-champagne-300 md:h-10 md:px-5"
           >
             {header.cta}
           </Link>
@@ -115,17 +123,23 @@ export function SiteHeader() {
             aria-expanded={open}
             aria-controls="mobile-menu"
             aria-label={open ? header.close : header.menu}
-            className="flex h-10 w-10 items-center justify-center rounded-sm border border-line text-ink-700 lg:hidden"
+            className="flex h-10 w-10 items-center justify-center rounded-sm border border-white/20 text-white transition-colors hover:bg-white/5 lg:hidden"
           >
             {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
           </button>
         </div>
       </div>
 
+      {/* 底部金色极细线：给深色横条一点收口，避免和白色内容区生硬相接 */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 -bottom-px h-px bg-gradient-to-r from-transparent via-champagne-400/45 to-transparent"
+      />
+
       {open ? (
         <div
           id="mobile-menu"
-          className="border-t border-line bg-paper/95 px-6 pb-8 pt-4 backdrop-blur-xl lg:hidden"
+          className="border-t border-white/10 bg-abyss-900 px-6 pb-8 pt-4 lg:hidden"
         >
           <nav aria-label="移动端导航" className="flex flex-col">
             {nav.map((item) => (
@@ -133,32 +147,34 @@ export function SiteHeader() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "flex items-center justify-between border-b border-line py-4 text-h3 font-light",
-                  isActive(item.href) ? "text-champagne-700" : "text-ink-900",
+                  "flex items-center justify-between border-b border-white/10 py-4 text-h3 transition-colors",
+                  isActive(item.href) ? "text-champagne-300" : "text-white",
                 )}
               >
                 {item.label}
-                <span className="text-micro tracking-[0.16em] text-ink-400 uppercase">
+                <span className="text-micro font-medium tracking-[0.16em] text-white/35 uppercase">
                   0{nav.indexOf(item) + 1}
                 </span>
               </Link>
             ))}
           </nav>
-          <div className="mt-6 flex items-center justify-between">
-            <div className="flex gap-4 text-small text-ink-500">
-              <Link href="/cart" className="hover:text-ink-900">
+          {/* 竖排：390px 宽时「询盘单 / 登录 / 用户中心」和 5 个图标挤一行会把字挤断行 */}
+          <div className="mt-6 flex flex-col gap-5">
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-small font-medium whitespace-nowrap text-white/60">
+              <Link href="/cart" className="hover:text-white">
                 {header.cart}
               </Link>
-              <Link href={loginHref} className="hover:text-ink-900">
+              <Link href={loginHref} className="hover:text-white">
                 {loginLabel}
               </Link>
-              <Link href="/account" className="hover:text-ink-900">
+              <Link href="/account" className="hover:text-white">
                 {header.account}
               </Link>
+              <Link href={contact.emailHref} className="text-white/45 hover:text-white">
+                {contact.email}
+              </Link>
             </div>
-            <div className="flex items-center gap-2">
-              <SocialRail size="sm" />
-            </div>
+            <SocialRail size="sm" />
           </div>
         </div>
       ) : null}

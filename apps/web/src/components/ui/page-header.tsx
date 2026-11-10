@@ -27,7 +27,7 @@ export function PageHeader({
         {eyebrow ? <p className="label-micro mb-5">{eyebrow}</p> : null}
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div className="max-w-3xl">
-            <h1 className="text-h1 font-light text-ink-900">{title}</h1>
+            <h1 className="text-h1 font-semibold text-ink-900">{title}</h1>
             {description ? (
               <p className="mt-5 max-w-2xl text-ink-500">{description}</p>
             ) : null}

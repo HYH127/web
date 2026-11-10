@@ -60,7 +60,7 @@ export function AccountProfile() {
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <p className="label-micro">账户资料</p>
-            <p className="text-h3 mt-2 font-light text-ink-900">尚未登录</p>
+            <p className="text-h3 mt-2 font-semibold text-ink-900">尚未登录</p>
           </div>
           <ButtonLink href="/login">登录</ButtonLink>
         </div>
@@ -76,7 +76,7 @@ export function AccountProfile() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <p className="label-micro">账户资料</p>
-          <p className="text-h3 mt-2 font-light text-ink-900">
+          <p className="text-h3 mt-2 font-semibold text-ink-900">
             {user.name || user.email.split("@")[0]}
             {user.company ? ` · ${user.company}` : ""}
           </p>
