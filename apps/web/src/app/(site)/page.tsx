@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUp, ArrowUpRight } from "lucide-react";
 import { Container, Section, SectionHeading } from "@/components/ui/container";
 import { SwipeRow } from "@/components/ui/swipe-row";
 import { ButtonLink } from "@/components/ui/button";
@@ -429,10 +429,17 @@ export default async function HomePage() {
             ))}
           </div>
 
-          <div className="mt-14 border-t border-line pt-8">
+          <div className="mt-14 flex items-center justify-between gap-4 border-t border-line pt-8">
             <p className="text-small text-ink-400">
               {company.nameZh} · {company.positioning} · 每周更新现场记录
             </p>
+            <a
+              href="#site-top"
+              className="group inline-flex shrink-0 items-center gap-1.5 text-micro tracking-[0.14em] text-ink-400 uppercase transition-colors duration-300 hover:text-ink-900"
+            >
+              回到顶部
+              <ArrowUp className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5" />
+            </a>
           </div>
         </Container>
       </Section>
