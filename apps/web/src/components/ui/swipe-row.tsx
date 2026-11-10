@@ -6,14 +6,22 @@ import { cn } from "@/lib/utils";
 /**
  * 移动端横向滑动容器（<640px 生效，桌面完全交给原来的 grid）
  *
- * 设计取舍：
- * - 滚动、吸附、惯性全部交给浏览器原生（`overflow-x-auto` + `scroll-snap`），
- *   不做 transform 拖拽，避免和页面纵向滚动抢手势；
- * - 滚动监听里直接写 DOM 属性与 style，**不 setState**——卡片是服务端渲染的，
- *   每帧 setState 会把整棵子树重渲染，滑起来会掉帧；
- * - 卡片默认露出一截（88% 宽），滑到哪张哪张「亮起来」：
- *   非激活项 scale 0.965 + 透明度 75%，形成深浅层次；
- * - 底部进度条 + 「右滑」提示，滚过第一屏后提示自动淡出，不长期占地方。
+ * 滚动、吸附、惯性全部交给浏览器原生（`overflow-x-auto` + `scroll-snap`），
+ * 不做 transform 拖拽，避免和页面纵向滚动抢手势。
+ *
+ * ── 关于「闪跳 / 重影 / 瞬间错位」的三处修正（2026-11-10）──────────────
+ * 1) 旧版按「谁是当前卡」离散地写 data-active，非激活卡瞬时 scale 0.965，
+ *    而滚动中又用 CSS 关掉了 transition —— 属性一变就是一次硬跳，手指
+ *    滑过时卡片会突然缩一下，视觉上就是错位 + 闪。现在改成**连续量**：
+ *    每帧按「卡片中心离容器中心多远」写入 --swipe-p（0 居中 → 1 出屏），
+ *    由 CSS 算 scale / opacity，全程无补间，位移和缩放永远同一帧、同源。
+ * 2) 卡片的 backdrop-filter 在「滚动 + 缩放」的合成层里会逐帧重算背景
+ *    模糊，低端机表现为闪白 / 重影。移动端横滑卡改成实底白（见 globals.css）。
+ * 3) 旧版每帧读 offsetLeft / clientWidth，读写交替触发强制同步布局。
+ *    现在尺寸只在挂载、resize、ResizeObserver 时量一次，滚动帧里只写不读。
+ *
+ * 另外：滚动回调不 setState —— 卡片是服务端渲染的，每帧重渲染整棵子树
+ * 必掉帧；并用 will-change 固定合成层，缩放只做纹理变换、不逐帧重新栅格化。
  */
 interface SwipeRowProps {
   children: ReactNode;
@@ -25,41 +33,64 @@ interface SwipeRowProps {
 }
 
 const MOBILE_QUERY = "(max-width: 639px)";
+/** 位置变化小于这个阈值就不写样式，避免无意义的样式重算 */
+const EPSILON = 0.004;
 
 export function SwipeRow({ children, className, hint = "右滑查看更多", as = "div" }: SwipeRowProps) {
   const wrapRef = useRef<HTMLDivElement | null>(null);
-  const barRef = useRef<HTMLSpanElement | null>(null);
   const hintRef = useRef<HTMLSpanElement | null>(null);
 
   useEffect(() => {
-    const track = wrapRef.current?.querySelector<HTMLElement>("[data-swipe-track]");
-    if (!track) return;
+    const wrap = wrapRef.current;
+    const track = wrap?.querySelector<HTMLElement>("[data-swipe-track]");
+    if (!wrap || !track) return;
 
     const mq = window.matchMedia(MOBILE_QUERY);
+    const calm = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    let nodes: HTMLElement[] = [];
+    /** 每张卡中心点在 track 内容坐标系下的 x —— 量一次，滚动帧里不再读布局 */
+    let centers: number[] = [];
+    let viewWidth = 0;
+    let maxScroll = 0;
+    const lastP = new Map<HTMLElement, number>();
+    let lastRatio = -1;
+    let hintHidden = false;
     let frame = 0;
-    let idle = 0;
-    let detach: (() => void) | null = null;
+    let attached = false;
+    let lateMeasure = 0;
+    let observer: ResizeObserver | null = null;
 
     const paint = () => {
       frame = 0;
-      const items = track.querySelectorAll<HTMLElement>("[data-swipe-item]");
-      const max = track.scrollWidth - track.clientWidth;
-      const ratio = max > 8 ? Math.min(1, Math.max(0, track.scrollLeft / max)) : 0;
+      if (!nodes.length || !viewWidth) return;
 
-      if (barRef.current) {
-        // 留一截底，滑到起点时进度条也看得见
-        barRef.current.style.transform = `scaleX(${(0.18 + ratio * 0.82).toFixed(3)})`;
-      }
-      if (hintRef.current) {
-        hintRef.current.style.opacity = ratio > 0.02 ? "0" : "1";
+      const scroll = track.scrollLeft;
+      const viewCenter = scroll + viewWidth / 2;
+      const half = viewWidth / 2;
+
+      for (let i = 0; i < nodes.length; i += 1) {
+        const node = nodes[i];
+        const p = Math.min(1, Math.abs(centers[i] - viewCenter) / half);
+        const prev = lastP.get(node);
+        if (prev === undefined || Math.abs(p - prev) > EPSILON) {
+          node.style.setProperty("--swipe-p", p.toFixed(3));
+          lastP.set(node, p);
+        }
       }
 
-      // 以「卡片中心离容器中心多远」判定谁是当前卡
-      const center = track.scrollLeft + track.clientWidth / 2;
-      items.forEach((item) => {
-        const itemCenter = item.offsetLeft + item.offsetWidth / 2;
-        item.dataset.active = Math.abs(itemCenter - center) < item.offsetWidth * 0.55 ? "true" : "false";
-      });
+      const ratio = maxScroll > 8 ? Math.min(1, Math.max(0, scroll / maxScroll)) : 0;
+      if (Math.abs(ratio - lastRatio) > EPSILON) {
+        wrap.style.setProperty("--swipe-ratio", ratio.toFixed(3));
+        lastRatio = ratio;
+      }
+
+      // 提示只在跨过阈值时写一次，避免每帧碰 DOM
+      const shouldHide = ratio > 0.02;
+      if (hintRef.current && shouldHide !== hintHidden) {
+        hintHidden = shouldHide;
+        hintRef.current.style.opacity = shouldHide ? "0" : "1";
+      }
     };
 
     const schedule = () => {
@@ -67,54 +98,89 @@ export function SwipeRow({ children, className, hint = "右滑查看更多", as 
       frame = requestAnimationFrame(paint);
     };
 
-    /**
-     * 滚动中给轨道打上 data-swiping：此时卡片自身的过渡动画会被 CSS 关掉，
-     * 避免「手指已经滑过去、卡片还在做 300ms 缩放」的滞后感。
-     * 停止滚动 140ms 后摘掉标记，恢复过渡。
-     */
-    const onScroll = () => {
-      if (!track.dataset.swiping) track.dataset.swiping = "1";
-      window.clearTimeout(idle);
-      idle = window.setTimeout(() => {
-        delete track.dataset.swiping;
-      }, 140);
-      schedule();
-    };
+    /** 只在尺寸真的变了时重新量；量完立刻画一帧，避免用旧中心点算出错的缩放 */
+    const measure = () => {
+      const nextWidth = track.clientWidth;
+      const nextMax = Math.max(0, track.scrollWidth - nextWidth);
+      const nextNodes = Array.from(track.querySelectorAll<HTMLElement>("[data-swipe-item]"));
+      const nextCenters = nextNodes.map((node) => node.offsetLeft + node.offsetWidth / 2);
 
-    const attach = () => {
-      if (detach) return;
-      track.addEventListener("scroll", onScroll, { passive: true });
-      window.addEventListener("resize", schedule, { passive: true });
-      detach = () => {
-        track.removeEventListener("scroll", onScroll);
-        window.removeEventListener("resize", schedule);
-        window.clearTimeout(idle);
-        delete track.dataset.swiping;
-        if (frame) {
-          cancelAnimationFrame(frame);
-          frame = 0;
-        }
-      };
+      const same =
+        nextWidth === viewWidth &&
+        nextMax === maxScroll &&
+        nextNodes.length === nodes.length &&
+        nextCenters.every((value, index) => Math.abs(value - centers[index]) < 0.5);
+
+      if (same) return;
+
+      nodes = nextNodes;
+      centers = nextCenters;
+      viewWidth = nextWidth;
+      maxScroll = nextMax;
+      lastP.clear();
       paint();
     };
 
-    const release = () => {
-      detach?.();
-      detach = null;
-      delete track.dataset.swiping;
-      track.querySelectorAll<HTMLElement>("[data-swipe-item]").forEach((item) => {
-        delete item.dataset.active;
-      });
-      if (barRef.current) barRef.current.style.transform = "";
-      if (hintRef.current) hintRef.current.style.opacity = "";
+    const onScroll = () => schedule();
+    const onResize = () => schedule();
+
+    const attach = () => {
+      if (attached) return;
+      attached = true;
+      track.addEventListener("scroll", onScroll, { passive: true });
+      track.addEventListener("scrollend", schedule);
+      window.addEventListener("resize", onResize, { passive: true });
+      window.addEventListener("orientationchange", onResize, { passive: true });
+      if (typeof ResizeObserver !== "undefined") {
+        observer = new ResizeObserver(() => measure());
+        observer.observe(track);
+      }
+      measure();
+      // 首帧字体/图片可能还没落位，补量一次
+      lateMeasure = window.setTimeout(() => {
+        if (attached) measure();
+      }, 200);
     };
 
-    const sync = () => (mq.matches ? attach() : release());
+    const release = () => {
+      if (!attached) return;
+      attached = false;
+      track.removeEventListener("scroll", onScroll);
+      track.removeEventListener("scrollend", schedule);
+      window.removeEventListener("resize", onResize);
+      window.removeEventListener("orientationchange", onResize);
+      observer?.disconnect();
+      observer = null;
+      window.clearTimeout(lateMeasure);
+      if (frame) {
+        cancelAnimationFrame(frame);
+        frame = 0;
+      }
+      nodes.forEach((node) => node.style.removeProperty("--swipe-p"));
+      wrap.style.removeProperty("--swipe-ratio");
+      if (hintRef.current) hintRef.current.style.opacity = "";
+      nodes = [];
+      centers = [];
+      lastP.clear();
+      lastRatio = -1;
+      hintHidden = false;
+      viewWidth = 0;
+      maxScroll = 0;
+    };
+
+    /** 降级：用户要求减少动效时，只保留吸附，不做缩放/淡出 */
+    const sync = () => {
+      if (mq.matches && !calm.matches) attach();
+      else release();
+    };
+
     sync();
     mq.addEventListener("change", sync);
+    calm.addEventListener("change", sync);
 
     return () => {
       mq.removeEventListener("change", sync);
+      calm.removeEventListener("change", sync);
       release();
     };
   }, []);
@@ -131,9 +197,8 @@ export function SwipeRow({ children, className, hint = "右滑查看更多", as 
         </span>
         <span className="relative h-[2px] w-16 overflow-hidden rounded-full bg-surface-strong">
           <span
-            ref={barRef}
-            className="absolute inset-y-0 left-0 w-full origin-left rounded-full bg-champagne-500 transition-transform duration-200 ease-out"
-            style={{ transform: "scaleX(0.18)" }}
+            data-swipe-bar
+            className="absolute inset-y-0 left-0 w-full origin-left rounded-full bg-champagne-500"
           />
         </span>
       </div>

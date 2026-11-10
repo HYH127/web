@@ -243,16 +243,42 @@
    ------------------------------------------------------------
    1. scroll-snap-stop: always —— 一次手势最多只前进一张卡片。
       默认的 normal 会在快速一划时连跳 2~3 张，用户感觉「不受控」。
-   2. 手指还在拖动时（[data-swiping]）关闭卡片自身的过渡动画，
-      否则 300ms 的缩放/透明度过渡会追不上滚动的位移，看起来像
-      卡片在和手指「抢」。松手停止滚动后再恢复过渡。
+   2. 层次感不再用离散的 data-active 切换（切换瞬间会「啪」地缩一下，
+      滚动时尤其像错位/闪跳），改为 JS 逐帧写入连续量 --swipe-p
+      （0 = 卡片居中，1 = 已滑出视野），这里只做算式，不带任何补间。
+   3. transition 全部禁止：位移与缩放同源、同帧，手指到哪卡片就在哪。
+   4. will-change 固定合成层，缩放只做纹理变换，不逐帧重新栅格化——
+      这是「重影 / 帧闪烁」的直接来源。
    ============================================================ */
 @media (max-width: 639px) {
   [data-swipe-track] > [data-swipe-item] {
     scroll-snap-stop: always;
+
+    /* 平方衰减：卡片在中心附近几乎不变形，快滑出视野时才收，观感更稳 */
+    scale: calc(1 - 0.04 * var(--swipe-p, 0) * var(--swipe-p, 0));
+    opacity: calc(1 - 0.24 * var(--swipe-p, 0));
+
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    transition: none !important;
+
+    /* 长按图片会拉起系统拖拽影像（真·重影），一并关掉 */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
   }
 
-  [data-swipe-track][data-swiping] > [data-swipe-item] {
-    transition: none;
+  /* backdrop-filter 在「滚动 + 缩放」的合成层里逐帧重算背景模糊，
+     低端机上表现为闪白与重影。横滑卡片本就不透明，改实底白即可。 */
+  [data-swipe-track] > [data-swipe-item].glass-panel {
+    background-color: var(--color-paper);
+    backdrop-filter: none;
   }
+}
+
+/* 底部进度条：同样由 --swipe-ratio 直接算，不做 transition
+   （transition 会被每帧的新值反复重置，看起来像在抖） */
+[data-swipe-bar] {
+  transform: scaleX(calc(0.18 + 0.82 * var(--swipe-ratio, 0)));
+  will-change: transform;
 }

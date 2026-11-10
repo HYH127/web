@@ -271,21 +271,22 @@ export default async function HomePage() {
                   key={cat.value}
                   href={`/product/${product.slug}`}
                   data-swipe-item
-                  className="glass-panel group flex h-full w-[88%] shrink-0 snap-start flex-col overflow-hidden rounded-lg transition-[transform,opacity,border-color] duration-300 ease-out hover:border-lumen-500/40 sm:w-auto data-[active=false]:scale-[0.965] data-[active=false]:opacity-75"
+                  className="glass-panel group flex h-full w-[88%] shrink-0 snap-start flex-col overflow-hidden rounded-lg transition-colors duration-300 hover:border-lumen-500/40 sm:w-auto"
                 >
                   <div className="relative aspect-4/5 overflow-hidden border-b border-line bg-surface">
                     <img
                       src={product.image}
                       alt={product.name}
                       loading="lazy"
-                      className="h-full w-full object-cover transition-transform duration-700 ease-lumen group-hover:scale-[1.04]"
+                      draggable={false}
+                      className="h-full w-full object-cover sm:transition-transform sm:duration-700 sm:ease-lumen sm:group-hover:scale-[1.04]"
                     />
                     {product.badge ? (
                       <span className="absolute left-3 top-3">
                         <Badge tone="gold">{product.badge}</Badge>
                       </span>
                     ) : null}
-                    <span className="absolute right-3 top-3 flex h-7 w-7 items-center justify-center rounded-full border border-line bg-paper/85 text-ink-500 opacity-0 backdrop-blur-sm transition-opacity duration-300 group-hover:opacity-100">
+                    <span className="absolute right-3 top-3 flex h-7 w-7 items-center justify-center rounded-full border border-line bg-paper/85 text-ink-500 opacity-0 backdrop-blur-sm transition-opacity duration-300 sm:group-hover:opacity-100">
                       <ArrowUpRight className="h-3.5 w-3.5" />
                     </span>
                   </div>
@@ -348,7 +349,7 @@ export default async function HomePage() {
               <li
                 key={item.step}
                 data-swipe-item
-                className="w-[86%] shrink-0 snap-start pt-5 transition-[transform,opacity] duration-300 ease-out data-[active=false]:scale-[0.97] data-[active=false]:opacity-75 sm:w-auto"
+                className="w-[86%] shrink-0 snap-start pt-5 sm:w-auto"
               >
                 <div aria-hidden className="relative h-[3px] w-full bg-surface-strong">
                   <span
