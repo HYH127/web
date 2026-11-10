@@ -1,6 +1,7 @@
 import type { ReactElement } from "react";
 import { social } from "@/lib/messages";
 import { cn } from "@/lib/utils";
+import { SocialLink } from "./social-link";
 
 /**
  * 官方品牌图标：统一为「圆角方块 + 白色图形」。
@@ -143,29 +144,30 @@ function BrandTile({
   href,
   label,
   platform,
+  appScheme,
   size = "md",
 }: {
   href: string;
   label: string;
   platform: string;
+  appScheme?: string;
   size?: "sm" | "md";
 }) {
   const Glyph = glyphs[platform];
   if (!Glyph) return null;
   return (
-    <a
+    <SocialLink
       href={href}
-      target="_blank"
-      rel="noreferrer noopener"
-      aria-label={`${label}（新窗口打开）`}
-      title={label}
+      appScheme={appScheme}
+      label={label}
+      ariaLabel={`${label}（移动端打开 App，桌面端新窗口打开）`}
       className={cn(
-        "flex shrink-0 items-center justify-center shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md hover:brightness-95",
+        "flex shrink-0 items-center justify-center shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md hover:brightness-95 active:scale-95",
         size === "sm" ? "h-8 w-8" : "h-10 w-10",
       )}
     >
       <Glyph className="h-full w-full" />
-    </a>
+    </SocialLink>
   );
 }
 
@@ -184,6 +186,7 @@ export function SocialRail({
             href={item.href}
             label={item.label}
             platform={item.platform}
+            appScheme={item.appScheme}
             size={size}
           />
         </li>

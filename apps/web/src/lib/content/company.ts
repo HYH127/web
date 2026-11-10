@@ -173,13 +173,66 @@ export const contact = {
   reply: "工作日 4 小时内回复，非工作日次日上午回复。",
 };
 
-export const socialLinks = [
-  { platform: "youtube", label: "YouTube", href: "https://www.youtube.com/@nordelgroup" },
-  { platform: "tiktok", label: "TikTok", href: "https://www.tiktok.com/@nordelgroup" },
-  { platform: "facebook", label: "Facebook", href: "https://www.facebook.com/nordelgroup" },
-  { platform: "instagram", label: "Instagram", href: "https://www.instagram.com/nordelgroup" },
-  { platform: "whatsapp", label: "WhatsApp", href: "https://wa.me/8613857902168" },
-] as const;
+export type SocialPlatform =
+  | "youtube"
+  | "tiktok"
+  | "facebook"
+  | "instagram"
+  | "whatsapp";
+
+export type SocialLinkItem = {
+  platform: SocialPlatform;
+  label: string;
+  /** 网页地址：桌面端直接打开，移动端作为唤起失败后的回落目标 */
+  href: string;
+  /**
+   * App 的 URL Scheme：移动端点击时先尝试唤起原生 App。
+   * 留空则该平台只走系统的 Universal Link / App Link（https 链接自动唤起 App）。
+   * TikTok 官方没有可用的用户名 scheme，所以刻意留空。
+   */
+  appScheme?: string;
+};
+
+/**
+ * 社交账号。改账号时只需要动这里的 handle —— appScheme 里的用户名要同步改，
+ * 否则会出现「App 打开了但显示用户不存在」。
+ */
+const SOCIAL_HANDLE = "nordelgroup";
+
+export const socialLinks: SocialLinkItem[] = [
+  {
+    platform: "youtube",
+    label: "YouTube",
+    href: `https://www.youtube.com/@${SOCIAL_HANDLE}`,
+    appScheme: `youtube://www.youtube.com/@${SOCIAL_HANDLE}`,
+  },
+  {
+    platform: "tiktok",
+    label: "TikTok",
+    href: `https://www.tiktok.com/@${SOCIAL_HANDLE}`,
+  },
+  {
+    platform: "facebook",
+    label: "Facebook",
+    href: `https://www.facebook.com/${SOCIAL_HANDLE}`,
+    // fb:// 的 profile 需要数字 id，用 facewebmodal 传网页地址最稳
+    appScheme: `fb://facewebmodal/f?href=${encodeURIComponent(
+      `https://www.facebook.com/${SOCIAL_HANDLE}`,
+    )}`,
+  },
+  {
+    platform: "instagram",
+    label: "Instagram",
+    href: `https://www.instagram.com/${SOCIAL_HANDLE}`,
+    appScheme: `instagram://user?username=${SOCIAL_HANDLE}`,
+  },
+  {
+    platform: "whatsapp",
+    label: "WhatsApp",
+    href: contact.whatsappHref,
+    appScheme: `whatsapp://send?phone=${contact.whatsappHref.replace(/\D/g, "")}`,
+  },
+];
 
 export const heritage = {
   eyebrow: "SINCE 2016 · YIWU",
