@@ -4,7 +4,6 @@ import { Container, Section, SectionHeading } from "@/components/ui/container";
 import { SwipeRow } from "@/components/ui/swipe-row";
 import { ButtonLink } from "@/components/ui/button";
 import { MixBars, MixDonut } from "@/components/ui/mix-charts";
-import { SocialRail } from "@/components/layout/social";
 import { WorldMap, CourierOverlay } from "@/components/home/world-map";
 import { Badge } from "@/components/ui/badge";
 import { apiGetSafe } from "@/lib/api";
@@ -430,11 +429,10 @@ export default async function HomePage() {
             ))}
           </div>
 
-          <div className="mt-14 flex flex-col gap-4 border-t border-line pt-8 sm:flex-row sm:items-center sm:justify-between">
+          <div className="mt-14 border-t border-line pt-8">
             <p className="text-small text-ink-400">
               {company.nameZh} · {company.positioning} · 每周更新现场记录
             </p>
-            <SocialRail />
           </div>
         </Container>
       </Section>

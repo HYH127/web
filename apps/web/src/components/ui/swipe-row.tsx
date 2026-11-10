@@ -37,6 +37,7 @@ export function SwipeRow({ children, className, hint = "右滑查看更多", as 
 
     const mq = window.matchMedia(MOBILE_QUERY);
     let frame = 0;
+    let idle = 0;
     let detach: (() => void) | null = null;
 
     const paint = () => {
@@ -66,13 +67,29 @@ export function SwipeRow({ children, className, hint = "右滑查看更多", as 
       frame = requestAnimationFrame(paint);
     };
 
+    /**
+     * 滚动中给轨道打上 data-swiping：此时卡片自身的过渡动画会被 CSS 关掉，
+     * 避免「手指已经滑过去、卡片还在做 300ms 缩放」的滞后感。
+     * 停止滚动 140ms 后摘掉标记，恢复过渡。
+     */
+    const onScroll = () => {
+      if (!track.dataset.swiping) track.dataset.swiping = "1";
+      window.clearTimeout(idle);
+      idle = window.setTimeout(() => {
+        delete track.dataset.swiping;
+      }, 140);
+      schedule();
+    };
+
     const attach = () => {
       if (detach) return;
-      track.addEventListener("scroll", schedule, { passive: true });
+      track.addEventListener("scroll", onScroll, { passive: true });
       window.addEventListener("resize", schedule, { passive: true });
       detach = () => {
-        track.removeEventListener("scroll", schedule);
+        track.removeEventListener("scroll", onScroll);
         window.removeEventListener("resize", schedule);
+        window.clearTimeout(idle);
+        delete track.dataset.swiping;
         if (frame) {
           cancelAnimationFrame(frame);
           frame = 0;
@@ -84,6 +101,7 @@ export function SwipeRow({ children, className, hint = "右滑查看更多", as 
     const release = () => {
       detach?.();
       detach = null;
+      delete track.dataset.swiping;
       track.querySelectorAll<HTMLElement>("[data-swipe-item]").forEach((item) => {
         delete item.dataset.active;
       });

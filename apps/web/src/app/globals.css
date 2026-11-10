@@ -237,3 +237,22 @@
 @utility hairline {
   border-color: var(--color-line);
 }
+
+/* ============================================================
+   移动端横滑（SwipeRow）
+   ------------------------------------------------------------
+   1. scroll-snap-stop: always —— 一次手势最多只前进一张卡片。
+      默认的 normal 会在快速一划时连跳 2~3 张，用户感觉「不受控」。
+   2. 手指还在拖动时（[data-swiping]）关闭卡片自身的过渡动画，
+      否则 300ms 的缩放/透明度过渡会追不上滚动的位移，看起来像
+      卡片在和手指「抢」。松手停止滚动后再恢复过渡。
+   ============================================================ */
+@media (max-width: 639px) {
+  [data-swipe-track] > [data-swipe-item] {
+    scroll-snap-stop: always;
+  }
+
+  [data-swipe-track][data-swiping] > [data-swipe-item] {
+    transition: none;
+  }
+}
