@@ -79,9 +79,9 @@ export default async function HomePage() {
                 <span className="whitespace-nowrap text-champagne-700">{hero.titleBottom}</span>
               </h1>
               <p className="mt-7 max-w-xl text-ink-500">{hero.subtitle}</p>
-              {/* 手机上两个按钮等宽两栏：写成 flex-wrap 会让两个按钮宽度随字数
-                  长短不一，左边缘看着参差；等宽后整块对齐更稳 */}
-              <div className="mt-10 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:items-center sm:gap-4">
+              {/* 手机上两个按钮各占整行：390px 宽分两栏时「查看合作案例」会被挤成
+                  两行，比不等宽更难看；整行后宽度由 padding 决定，稳定且好点按 */}
+              <div className="mt-10 grid grid-cols-1 gap-3 sm:flex sm:flex-wrap sm:items-center sm:gap-4">
                 <ButtonLink href={hero.primaryCta.href} size="lg" className="w-full sm:w-auto">
                   {hero.primaryCta.label}
                   <ArrowRight className="h-4 w-4 shrink-0" />
@@ -90,7 +90,7 @@ export default async function HomePage() {
                   href={hero.secondaryCta.href}
                   variant="ghost"
                   size="lg"
-                  className="w-full sm:w-auto"
+                  className="w-full whitespace-nowrap sm:w-auto"
                 >
                   {hero.secondaryCta.label}
                 </ButtonLink>
