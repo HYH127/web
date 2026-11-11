@@ -8,7 +8,7 @@ import { Reflector } from "@nestjs/core";
 import { JwtService } from "@nestjs/jwt";
 import type { Request } from "express";
 import { PrismaService } from "../../prisma/prisma.service";
-import { IS_PUBLIC_KEY, type RequestUser } from "../decorators/auth.decorators";
+import { IS_PUBLIC_KEY, ADMIN_ONLY_KEY, type RequestUser } from "../decorators/auth.decorators";
 
 export const SESSION_COOKIE = "nordel_at";
 
@@ -44,6 +44,15 @@ export class JwtAuthGuard implements CanActivate {
     const token = this.extractToken(request);
 
     if (!token) {
+      // 管理员写接口允许两种凭证：登录管理员，或 x-admin-key。
+      // 没有会话时不能在这里直接 401，否则带 admin key 的编辑台请求
+      // 根本到不了方法级的 AdminKeyGuard。是否放行由后者判定。
+      const adminOnly = this.reflector.getAllAndOverride<boolean>(ADMIN_ONLY_KEY, [
+        context.getHandler(),
+        context.getClass(),
+      ]);
+      if (adminOnly) return true;
+
       throw new UnauthorizedException({
         code: "UNAUTHORIZED",
         message: "请先登录",

@@ -14,13 +14,14 @@ import {
 } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBody, ApiConsumes, ApiOperation, ApiTags } from "@nestjs/swagger";
+import { Throttle } from "@nestjs/throttler";
 import { randomUUID } from "node:crypto";
 import { mkdirSync } from "node:fs";
 import { writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { memoryStorage } from "multer";
 import { AdminKeyGuard } from "../common/guards/admin-key.guard";
-import { Public } from "../auth/decorators/auth.decorators";
+import { AdminOnly, Public } from "../auth/decorators/auth.decorators";
 import {
   CreateFactoryPostDto,
   ListFactoryPostsQueryDto,
@@ -95,34 +96,43 @@ export class FactoryController {
   }
 
   @Post("posts")
+  @AdminOnly()
   @UseGuards(AdminKeyGuard)
+  @Throttle({ default: { limit: 30, ttl: 10 * 60 * 1000 } })
   @ApiOperation({
     summary: "新建工厂记录",
-    description: "占位鉴权：请求头 x-admin-key 需与 ADMIN_KEY 一致。",
+    description: "鉴权：管理员 JWT，或请求头 x-admin-key 与 ADMIN_KEY 一致。",
   })
   create(@Body() dto: CreateFactoryPostDto) {
     return this.factory.create(dto);
   }
 
   @Patch("posts/:id")
+  @AdminOnly()
   @UseGuards(AdminKeyGuard)
+  @Throttle({ default: { limit: 30, ttl: 10 * 60 * 1000 } })
   @ApiOperation({ summary: "修改工厂记录" })
   update(@Param("id") id: string, @Body() dto: UpdateFactoryPostDto) {
     return this.factory.update(id, dto);
   }
 
   @Delete("posts/:id")
+  @AdminOnly()
   @UseGuards(AdminKeyGuard)
+  @Throttle({ default: { limit: 30, ttl: 10 * 60 * 1000 } })
   @ApiOperation({
     summary: "删除工厂记录",
-    description: "物理删除，不可恢复；x-admin-key 需与 ADMIN_KEY 一致。",
+    description: "物理删除，不可恢复；鉴权同新建。",
   })
   remove(@Param("id") id: string) {
     return this.factory.remove(id);
   }
 
   @Post("upload")
+  @AdminOnly()
   @UseGuards(AdminKeyGuard)
+  // 上传比普通写更耗资源，单独收紧；也顺带把「暴力猜 ADMIN_KEY」的成本拉高
+  @Throttle({ default: { limit: 20, ttl: 10 * 60 * 1000 } })
   @UseInterceptors(
     FileInterceptor("file", {
       // 先放内存再校验：diskStorage 会把未经检查的内容直接写到磁盘，
