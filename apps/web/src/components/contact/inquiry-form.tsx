@@ -79,7 +79,7 @@ export function InquiryForm() {
         <h2 className="text-h2 mt-6 font-semibold text-ink-900">询盘已收到</h2>
         <p className="mt-3 text-ink-500">
           {`编号 `}
-          <span className="font-display text-ink-900">{done.reference}</span>
+          <span className="font-semibold tabular-nums text-ink-900">{done.reference}</span>
           {`。我们会在 ${done.replyWithin}回复，附上可行性与初步报价；如果涉及图纸，会一并说明需要确认的尺寸。`}
         </p>
         <ul className="mt-6 space-y-2 text-small text-ink-700">

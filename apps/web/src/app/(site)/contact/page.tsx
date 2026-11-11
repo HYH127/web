@@ -45,7 +45,7 @@ export default function ContactPage() {
                   },
                 ].map((item) => (
                   <div key={item.step}>
-                    <p className="font-display text-small text-champagne-600">{item.step}</p>
+                    <p className="text-small font-semibold tabular-nums text-champagne-600">{item.step}</p>
                     <p className="mt-2 text-small text-ink-900">{item.title}</p>
                     <p className="mt-1.5 text-micro leading-relaxed text-ink-500">{item.body}</p>
                   </div>

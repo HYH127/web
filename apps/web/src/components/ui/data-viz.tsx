@@ -29,7 +29,7 @@ export function StackedMix({
 
   return (
     <div className={className}>
-      <div className="flex h-2.5 w-full overflow-hidden bg-surface-strong">
+      <div className="flex h-2.5 w-full overflow-hidden rounded-full bg-surface-strong">
         {items.map((item, index) => (
           <span
             key={item.label}
@@ -69,7 +69,7 @@ export function StackedMix({
                 />
                 {item.label}
               </span>
-              <span className="font-display text-small text-ink-900">
+              <span className="text-small font-semibold tabular-nums text-ink-900">
                 {Math.round((item.value / total) * 100)}%
               </span>
             </li>

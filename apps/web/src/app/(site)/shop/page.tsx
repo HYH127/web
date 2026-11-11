@@ -89,7 +89,7 @@ export default async function ShopPage({
                     </p>
 
                     <div className="mt-4 flex items-baseline justify-between border-t border-line pt-4">
-                      <span className="font-display text-lg text-champagne-700">
+                      <span className="text-lg font-semibold tabular-nums text-champagne-700">
                         {formatPrice(product.price)}
                       </span>
                       <span className="text-micro tracking-[0.1em] text-ink-400 uppercase">

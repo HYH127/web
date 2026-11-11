@@ -85,7 +85,7 @@ export default async function CasesPage({
                         </Badge>
                         <Badge>{item.industry}</Badge>
                       </div>
-                      <span className="font-display text-small text-ink-300">
+                      <span className="text-small font-semibold tabular-nums text-ink-300">
                         {String(index + 1).padStart(2, "0")}
                       </span>
                     </div>
@@ -101,7 +101,7 @@ export default async function CasesPage({
                           <dt className="text-micro tracking-[0.12em] text-ink-400 uppercase">
                             {metric.label}
                           </dt>
-                          <dd className="mt-1.5 font-display text-lg text-ink-900">
+                          <dd className="mt-1.5 text-lg font-semibold tabular-nums text-ink-900">
                             {metric.value}
                           </dd>
                         </div>

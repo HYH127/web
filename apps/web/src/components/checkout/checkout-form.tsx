@@ -93,7 +93,7 @@ export function CheckoutForm() {
           <h2 className="text-h2 mt-6 font-semibold text-ink-900">询盘已提交</h2>
           <p className="mt-3 text-ink-500">
             {`编号 `}
-            <span className="font-display text-ink-900">{reference.reference}</span>
+            <span className="font-semibold tabular-nums text-ink-900">{reference.reference}</span>
             {`。报价单会在 ${reference.replyWithin}发到你的邮箱，含阶梯价、包装方案与可行船期。`}
           </p>
           <ul className="mt-6 space-y-2 text-small text-ink-700">
@@ -129,7 +129,7 @@ export function CheckoutForm() {
           </ul>
           <div className="mt-6 flex items-center justify-between border-t border-line pt-4">
             <span className="text-ink-900">预估合计</span>
-            <span className="font-display text-xl text-champagne-700">{formatPrice(amount)}</span>
+            <span className="text-xl font-semibold tabular-nums text-champagne-700">{formatPrice(amount)}</span>
           </div>
           <p className="mt-4 text-micro text-ink-400">FOB 宁波 · 不含运费与保险</p>
         </aside>
@@ -238,7 +238,7 @@ export function CheckoutForm() {
           </div>
           <div className="flex items-center justify-between">
             <dt className="text-ink-900">预估合计</dt>
-            <dd className="font-display text-xl text-champagne-700">{formatPrice(amount)}</dd>
+            <dd className="text-xl font-semibold tabular-nums text-champagne-700">{formatPrice(amount)}</dd>
           </div>
         </dl>
 

@@ -132,7 +132,7 @@ export default function AccountPage() {
                       <div className="flex flex-wrap items-start justify-between gap-3">
                         <div className="min-w-0">
                           <div className="flex flex-wrap items-center gap-3">
-                            <span className="font-display text-small text-ink-900">{order.no}</span>
+                            <span className="text-small font-semibold tabular-nums text-ink-900">{order.no}</span>
                             <Badge tone={order.tone}>{order.status}</Badge>
                             <span className="text-micro text-ink-400">{order.date}</span>
                           </div>
@@ -146,7 +146,7 @@ export default function AccountPage() {
                           <p className="mt-2 text-micro text-ink-400">{order.eta}</p>
                         </div>
                         <div className="text-right">
-                          <p className="font-display text-lg text-champagne-700">
+                          <p className="text-lg font-semibold tabular-nums text-champagne-700">
                             {formatPrice(order.amount)}
                           </p>
                           <p className="mt-1 flex items-center justify-end gap-1.5 text-micro text-ink-400">

@@ -108,7 +108,7 @@ export default async function ProductDetailPage({
               <p className="mt-4 text-ink-500">{product.summary}</p>
 
               <div className="mt-8 flex flex-wrap items-baseline gap-x-4 gap-y-2 border-y border-line py-6">
-                <span className="font-display text-3xl text-champagne-700">
+                <span className="text-3xl font-semibold tracking-[-0.03em] tabular-nums text-champagne-700">
                   {formatPrice(product.price)}
                 </span>
                 <span className="text-small text-ink-400">
@@ -224,7 +224,7 @@ export default async function ProductDetailPage({
                       {categoryLabel(item.category)}
                     </p>
                     <p className="mt-1 truncate text-small text-ink-900">{item.name}</p>
-                    <p className="mt-2 font-display text-small text-champagne-700">
+                    <p className="mt-2 text-small font-semibold tabular-nums text-champagne-700">
                       {formatPrice(item.price)}
                       <span className="ml-2 text-micro text-ink-400">MOQ {item.moq}</span>
                     </p>

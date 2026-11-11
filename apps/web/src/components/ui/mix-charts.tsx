@@ -122,9 +122,13 @@ export function MixDonut({
         </svg>
 
         <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
-          <span className="font-display text-[2rem] leading-none text-champagne-700">
+          {/* 中心读数：原来用 Playfair（衬线）—— 衬线数字粗细对比极大，
+              32px 时看着"花"，而且它的 % 天生偏上，像上标。
+              改成 Inter Tight 半粗 + 等宽数字：笔画厚度均匀、字形圆润，
+              % 与数字同基线，只降一号、压成浅灰，不再抢读数。 */}
+          <span className="text-[2.375rem] leading-none font-semibold tracking-[-0.03em] tabular-nums text-ink-900">
             {currentPct}
-            <span className="ml-0.5 text-sm text-ink-400">{unit}</span>
+            <span className="ml-0.5 text-lg text-ink-400">{unit}</span>
           </span>
           <span className="mt-2 text-micro tracking-[0.12em] text-ink-500 uppercase">
             {current.label}
@@ -148,12 +152,12 @@ export function MixDonut({
               >
                 <span className="flex items-center gap-2.5 text-small">
                   <span
-                    className="h-2 w-2 shrink-0"
+                    className="h-2 w-2 shrink-0 rounded-full"
                     style={{ backgroundColor: SERIES[index % SERIES.length] }}
                   />
                   {item.label}
                 </span>
-                <span className="font-display text-small text-champagne-700">
+                <span className="text-small font-semibold tabular-nums text-ink-900">
                   {Math.round((item.value / total) * 100)}%
                 </span>
               </button>
@@ -201,15 +205,15 @@ export function MixBars({
             >
               {item.label}
             </span>
-            <span className="font-display text-small text-champagne-700">
+            <span className="text-small font-semibold tabular-nums text-ink-900">
               {item.value}
-              <span className="ml-0.5 text-micro text-ink-400">{unit}</span>
+              {unit}
             </span>
           </div>
-          <div className="mt-2 h-[6px] w-full overflow-hidden bg-surface-strong">
+          <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-surface-strong">
             <div
               className={cn(
-                "h-full origin-left",
+                "h-full origin-left rounded-full",
                 active === index ? "bg-champagne-700" : "bg-champagne-500",
               )}
               style={{

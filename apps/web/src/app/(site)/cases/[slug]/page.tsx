@@ -88,7 +88,7 @@ export default async function CaseDetailPage({
                 <dt className="text-micro tracking-[0.16em] text-ink-400 uppercase">
                   {metric.label}
                 </dt>
-                <dd className="mt-3 font-display text-4xl text-champagne-700">
+                <dd className="mt-3 text-4xl font-semibold tracking-[-0.03em] tabular-nums text-champagne-700">
                   {metric.value}
                 </dd>
                 {metric.note ? (

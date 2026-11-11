@@ -48,7 +48,7 @@ export default function AboutPage() {
               <dl className="mt-10 grid grid-cols-2 gap-x-6 gap-y-8 border-t border-line pt-8">
                 {facts.map((fact) => (
                   <div key={fact.label}>
-                    <dd className="font-display text-3xl text-champagne-700">
+                    <dd className="text-3xl font-semibold tracking-[-0.03em] tabular-nums text-champagne-700">
                       {fact.value}
                     </dd>
                     <dt className="mt-2 text-micro tracking-[0.14em] text-ink-500 uppercase">
@@ -98,7 +98,7 @@ export default function AboutPage() {
               <article key={item.key} className="glass-panel rounded-lg p-7">
                 <div className="flex items-baseline justify-between">
                   <p className="text-h3 font-semibold text-ink-900">{item.title}</p>
-                  <span className="font-display text-small text-champagne-600">{item.key}</span>
+                  <span className="text-small font-semibold tabular-nums text-champagne-600">{item.key}</span>
                 </div>
                 <p className="mt-3 text-small text-ink-500">{item.body}</p>
                 <ul className="mt-5 flex flex-wrap gap-2">
@@ -151,7 +151,7 @@ export default function AboutPage() {
                   aria-hidden
                   className="absolute -top-px left-0 h-px w-10 bg-champagne-500"
                 />
-                <p className="font-display text-h3 text-champagne-700">{item.year}</p>
+                <p className="text-h3 font-semibold tracking-[-0.02em] tabular-nums text-champagne-700">{item.year}</p>
                 <p className="mt-3 text-small text-ink-900">{item.title}</p>
                 <p className="mt-2 text-small text-ink-500">{item.body}</p>
               </li>
@@ -171,7 +171,7 @@ export default function AboutPage() {
           <ol className="mt-12 grid gap-6 md:grid-cols-4">
             {process.map((item) => (
               <li key={item.step} className="flex flex-col rounded-lg border border-line p-6">
-                <span className="font-display text-small text-champagne-600">{item.step}</span>
+                <span className="text-small font-semibold tabular-nums text-champagne-600">{item.step}</span>
                 <p className="mt-3 text-small text-ink-900">{item.title}</p>
                 <p className="mt-2 flex-1 text-micro leading-relaxed text-ink-500">{item.body}</p>
                 <p className="mt-4 text-micro tracking-[0.1em] text-ink-400 uppercase">

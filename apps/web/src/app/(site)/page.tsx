@@ -169,7 +169,7 @@ export default async function HomePage() {
                 <dt className="text-micro tracking-[0.16em] text-ink-400 uppercase">
                   {item.label}
                 </dt>
-                <dd className="mt-3 font-display text-4xl text-champagne-700">
+                <dd className="mt-3 text-4xl font-semibold tracking-[-0.03em] tabular-nums text-ink-900">
                   {index === 0 ? countryCount : item.value}
                 </dd>
               </div>
@@ -205,10 +205,10 @@ export default async function HomePage() {
             {trackRecord.map((item) => (
               <div key={item.label}>
                 <dd className="flex items-baseline gap-1.5">
-                  <span className="font-display text-2xl text-ink-900">
+                  <span className="text-2xl font-semibold tracking-[-0.02em] tabular-nums text-ink-900">
                     {item.value}
                   </span>
-                  <span className="text-micro text-champagne-700">{item.unit}</span>
+                  <span className="text-small font-semibold text-ink-400">{item.unit}</span>
                 </dd>
                 <dt className="mt-1 text-micro tracking-[0.1em] text-ink-400 uppercase">
                   {item.label}
@@ -329,7 +329,7 @@ export default async function HomePage() {
                     </p>
 
                     <div className="mt-4 flex items-baseline justify-between border-t border-line pt-4">
-                      <span className="font-display text-lg text-champagne-700">
+                      <span className="text-lg font-semibold tabular-nums text-champagne-700">
                         {formatPrice(product.price)}
                       </span>
                       <span className="text-micro tracking-[0.1em] text-ink-400 uppercase">
@@ -386,7 +386,7 @@ export default async function HomePage() {
                   />
                 </div>
                 <div className="mt-4 flex items-baseline justify-between gap-3">
-                  <p className="font-display text-small text-champagne-600">{item.step}</p>
+                  <p className="text-small font-semibold tabular-nums text-champagne-600">{item.step}</p>
                   <p className="text-micro text-ink-400">{item.span}</p>
                 </div>
                 <p className="mt-3 text-h3 font-semibold text-ink-900">{item.title}</p>
@@ -445,7 +445,7 @@ export default async function HomePage() {
                 <p className="mt-2 text-small text-ink-500">{item.desc}</p>
                 <div className="mt-6 flex items-end justify-between border-t border-line pt-4">
                   <span className="flex items-baseline gap-2">
-                    <span className="font-display text-h3 text-champagne-700">
+                    <span className="text-h3 font-semibold tracking-[-0.02em] tabular-nums text-champagne-700">
                       {item.stat}
                     </span>
                     <span className="text-micro tracking-[0.12em] text-ink-400 uppercase">

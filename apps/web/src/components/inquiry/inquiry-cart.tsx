@@ -132,7 +132,7 @@ export function InquiryCart() {
                     <Plus className="h-3.5 w-3.5" />
                   </button>
                 </div>
-                <p className="font-display text-lg text-champagne-700">
+                <p className="text-lg font-semibold tabular-nums text-champagne-700">
                   {formatPrice(row.amount)}
                 </p>
               </div>
@@ -164,7 +164,7 @@ export function InquiryCart() {
           </div>
           <div className="flex items-center justify-between border-t border-line pt-4">
             <dt className="text-ink-900">预估合计</dt>
-            <dd className="font-display text-xl text-champagne-700">{formatPrice(amount)}</dd>
+            <dd className="text-xl font-semibold tabular-nums text-champagne-700">{formatPrice(amount)}</dd>
           </div>
         </dl>
 
