@@ -112,26 +112,37 @@ async function bootstrap() {
   app.useGlobalInterceptors(new ResponseInterceptor());
   app.useGlobalFilters(new AllExceptionsFilter());
 
-  const swaggerConfig = new DocumentBuilder()
-    .setTitle("NORDEL Trade API")
-    .setDescription(
-      "外贸独立站接口文档。统一响应结构：{ success, data, meta } / 统一错误结构：{ success: false, error: { code, message, details } }。除标注 public 的接口外均需登录（HttpOnly Cookie 或 Bearer Token）。",
-    )
-    .setVersion("0.2.0")
-    .addBearerAuth()
-    .addCookieAuth("nordel_at")
-    .build();
-  const document = SwaggerModule.createDocument(app, swaggerConfig);
-  SwaggerModule.setup("api/docs", app, document, {
-    swaggerOptions: { persistAuthorization: true },
-  });
+  // 接口文档等于把整套路由、字段、鉴权方式摊开给外部看。
+  // 生产环境默认关闭，确实需要对外时显式设 ENABLE_API_DOCS=true。
+  const docsEnabled = !isProduction || process.env.ENABLE_API_DOCS === "true";
+  if (docsEnabled) {
+    const swaggerConfig = new DocumentBuilder()
+      .setTitle("NORDEL Trade API")
+      .setDescription(
+        "外贸独立站接口文档。统一响应结构：{ success, data, meta } / 统一错误结构：{ success: false, error: { code, message, details } }。除标注 public 的接口外均需登录（HttpOnly Cookie 或 Bearer Token）。",
+      )
+      .setVersion("0.2.0")
+      .addBearerAuth()
+      .addCookieAuth("nordel_at")
+      .build();
+    const document = SwaggerModule.createDocument(app, swaggerConfig);
+    SwaggerModule.setup("api/docs", app, document, {
+      swaggerOptions: { persistAuthorization: true },
+    });
+  } else {
+    // 生产环境连路由都不挂，避免任何形式的探测
+    Logger.log("API 文档已关闭（生产环境）", "Bootstrap");
+  }
 
+  // 只监听回环地址：Nginx / Next 都在本机，外部没有理由直连 4000。
+  // 绑 0.0.0.0 时，一旦安全组或防火墙被放宽，http://IP:4000 会绕过
+  // HTTPS、绕过 Nginx 的所有响应头，把 Cookie 暴露在明文链路上。
   const port = Number(process.env.PORT ?? 4000);
-  await app.listen(port);
+  const host = process.env.HOST ?? "127.0.0.1";
+  await app.listen(port, host);
 
-  Logger.log(`API   → http://localhost:${port}/api`, "Bootstrap");
-  Logger.log(`Docs  → http://localhost:${port}/api/docs`, "Bootstrap");
-  Logger.log(`Health→ http://localhost:${port}/api/health`, "Bootstrap");
+  Logger.log(`API   → http://${host}:${port}/api`, "Bootstrap");
+  Logger.log(`Health→ http://${host}:${port}/api/health`, "Bootstrap");
 }
 
 void bootstrap();
