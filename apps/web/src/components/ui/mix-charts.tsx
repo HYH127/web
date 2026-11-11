@@ -128,7 +128,7 @@ export function MixDonut({
               % 与数字同基线，只降一号、压成浅灰，不再抢读数。 */}
           <span className="text-[2.375rem] leading-none font-semibold tracking-[-0.03em] tabular-nums text-ink-900">
             {currentPct}
-            <span className="ml-0.5 text-lg text-ink-400">{unit}</span>
+            <span className="ml-1 text-xl text-ink-500">{unit}</span>
           </span>
           <span className="mt-2 text-micro tracking-[0.12em] text-ink-500 uppercase">
             {current.label}
